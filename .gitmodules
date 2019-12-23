@@ -1,0 +1,3 @@
+[submodule "ext_lib/frozen"]
+	path = ext_lib/frozen
+	url = https://github.com/serge-sans-paille/frozen.git
