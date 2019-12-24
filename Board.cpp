@@ -9,7 +9,7 @@
 
 Board::Board() {
 
-    for (auto i = 1; i <= 10; i++) {
+    for (auto i = 1; i <= 61; i++) {
         // TODO board initialization
 
         tiles.emplace(i, TileState::FREE);

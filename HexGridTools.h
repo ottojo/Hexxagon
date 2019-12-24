@@ -8,16 +8,24 @@
 #ifndef HEXXAGON_HEXGRIDTOOLS_H
 #define HEXXAGON_HEXGRIDTOOLS_H
 
-#include <tuple>
 #include <vector>
-#include <cmath>
 #include <iostream>
 #include <SFML/System.hpp>
-#include "frozen/map.h"
+#include <unordered_map>
 
 using CartCoordinate = sf::Vector2f;
 
 using AxialCoordinate = sf::Vector2i;
+
+// TODO put this somewhere else
+namespace std {
+    template<>
+    struct hash<AxialCoordinate> {
+        std::size_t operator()(const AxialCoordinate &k) const {
+            return std::hash<int>()(k.x) ^ (std::hash<int>()(k.y) << 1);
+        }
+    };
+}
 
 class HexGridTools {
 public:
@@ -30,15 +38,23 @@ public:
 
     static AxialCoordinate axialFromCartesian(CartCoordinate coord);
 
-    static AxialCoordinate axialFromIndex(int index);
+    static std::optional<AxialCoordinate> axialFromIndex(int index);
 
-    static int indexFromAxial(AxialCoordinate coordinate);
+    static std::optional<int> indexFromAxial(AxialCoordinate coordinate);
 
 private:
     const static CartCoordinate q_base;
     const static CartCoordinate r_base;
 
-    constexpr frozen::map<int, ;,1> bla = {{1, {1, 1}}};
+    /**
+     * Mapping from SoPra-Standard-Index to axial coordinate
+     */
+    const static std::unordered_map<int, sf::Vector2i> intAxialMap;
+
+    /**
+     * Mapping from axial coordinate to SpPra-Standard-Index
+     */
+    const static std::unordered_map<sf::Vector2i, int> axialIntMap;
 
 };
 

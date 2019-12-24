@@ -43,7 +43,12 @@ void GameScreen::render(sf::RenderWindow &window) const {
     }
 
     for (const auto &[index, tile]: board.getTiles()) {
-        auto[x, y] = r * HexGridTools::cartesianFromAxial(getTileLocation(index));
+        auto axial = HexGridTools::axialFromIndex(index);
+        if (!axial.has_value()) {
+            throw std::invalid_argument(
+                    "Axial coordinate for tile with index " + std::to_string(index) + " not found.");
+        }
+        auto[x, y] = r * HexGridTools::cartesianFromAxial(axial.value());
         drawHex(window, x, y, boardTransform);
     }
 
@@ -62,32 +67,6 @@ void GameScreen::drawHex(sf::RenderWindow &window, float centerX, float centerY,
     hex.setOutlineColor(sf::Color::Green);
     window.draw(hex, boardTransform);
 }
-
-/**
- *
- * @param index
- * @return x and y coordinate of tile
- */
-AxialCoordinate GameScreen::getTileLocation(int index) const {
-    // TODO this
-    switch (index) {
-        case 1:
-            return {0, 0};
-        case 2:
-            return {0, 1};
-        case 3:
-            return {1, 0};
-        case 4:
-            return {0, 2};
-        case 5:
-            return {2, 0};
-        case 6:
-            return {1, 1};
-        default:
-            return {0, 0};
-    }
-}
-
 
 GameScreen::GameScreen(const Board &board) :
         board(board),

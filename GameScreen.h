@@ -24,10 +24,7 @@ public:
 private:
     const Board &board;
 
-    [[nodiscard]] AxialCoordinate getTileLocation(int index) const;
-
-    void
-    drawHex(sf::RenderWindow &window, float centerX, float centerY, sf::Transform boardTransform) const;
+    void drawHex(sf::RenderWindow &window, float centerX, float centerY, sf::Transform boardTransform) const;
 
     sf::Vector2f boardScaling;
 

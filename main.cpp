@@ -43,6 +43,12 @@ int main() {
 
                 std::stringstream stream;
                 stream << "X: " << axial.x << " Y: " << axial.y;
+
+                auto index = HexGridTools::indexFromAxial(axial);
+                if (index.has_value()) {
+                    stream << " Index: " << index.value();
+                }
+
                 positionText.setString(stream.str());
             }
 
