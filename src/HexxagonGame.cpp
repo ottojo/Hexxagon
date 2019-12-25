@@ -5,11 +5,15 @@
  * Description here TODO
  */
 
-#include "HexxagonGame.h"
+#include "../inc/HexxagonGame.h"
 
 void HexxagonGame::doMove(int from, int to) {
 }
 
 bool HexxagonGame::verifyMove(int from, int to) {
     return false;
+}
+
+Board &HexxagonGame::getBoard() {
+    return board;
 }

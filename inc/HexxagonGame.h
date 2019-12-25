@@ -9,7 +9,7 @@
 #define HEXXAGON_HEXXAGONGAME_H
 
 
-#include "Board.h"
+#include "../src/Board.h"
 
 class HexxagonGame {
 
@@ -30,6 +30,8 @@ public:
      * @return true on success, false otherwise
      */
     bool verifyMove(int from, int to);
+
+    [[nodiscard]] Board &getBoard();
 };
 
 

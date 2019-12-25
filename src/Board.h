@@ -10,7 +10,7 @@
 
 
 #include <map>
-#include "Tile.h"
+#include "../inc/Tile.h"
 
 class Board {
 public:

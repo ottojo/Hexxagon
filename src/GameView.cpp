@@ -1,5 +1,5 @@
 /**
- * @file GameScreen.cpp
+ * @file GameView.cpp
  * @author jonas
  * @date 12/8/19
  * Description here TODO
@@ -7,12 +7,10 @@
 
 #include <iostream>
 #include <cmath>
-#include "GameScreen.h"
-#include "HexGridTools.h"
+#include "../inc/GameView.h"
+#include "../inc/HexGridTools.h"
 
-void GameScreen::render(sf::RenderWindow &window) const {
-    // TODO
-
+void GameView::render(sf::RenderTarget &window) const {
     float r = radius;
     float width = 2 * r;
     float height = std::sqrt(3.0f) * r;
@@ -27,8 +25,6 @@ void GameScreen::render(sf::RenderWindow &window) const {
 
     auto[windowWidth, windowHeight] = window.getSize();
     boardTransform.translate(windowWidth * 0.5f, windowHeight * 0.5f);
-
-    //TODO calculate scaling
 
     for (auto x = -gridSize * hGridSpacing; x <= gridSize * hGridSpacing; x += hGridSpacing) {
         sf::RectangleShape vertLine({1, 2 * gridSize * vGridSpacing});
@@ -50,15 +46,11 @@ void GameScreen::render(sf::RenderWindow &window) const {
         }
         auto[x, y] = r * HexGridTools::cartesianFromAxial(axial.value());
         drawHex(window, x, y, boardTransform);
+        // TODO draw state of tile
     }
-
-    sf::CircleShape middle(5);
-    middle.setPosition(0, 0);
-    middle.setFillColor(sf::Color::Green);
-    window.draw(middle, boardTransform);
 }
 
-void GameScreen::drawHex(sf::RenderWindow &window, float centerX, float centerY, sf::Transform boardTransform) const {
+void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform) const {
     sf::CircleShape hex(radius, 6);
     hex.setOrigin(radius, radius);
     hex.setRotation(30);
@@ -68,11 +60,11 @@ void GameScreen::drawHex(sf::RenderWindow &window, float centerX, float centerY,
     window.draw(hex, boardTransform);
 }
 
-GameScreen::GameScreen(const Board &board) :
+GameView::GameView(const Board &board) :
         board(board),
         boardScaling(1, 1) {}
 
-AxialCoordinate GameScreen::getCurrentCoordinate(sf::RenderWindow &window, sf::Vector2f location) const {
+AxialCoordinate GameView::getCurrentCoordinate(sf::RenderTarget &window, sf::Vector2f location) const {
 
     auto windowSize = window.getSize();
 

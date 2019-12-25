@@ -16,21 +16,58 @@ endif ()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=unused-parameter")
 
+# nlohmann/json
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(JSON_Install OFF CACHE INTERNAL "")
+add_subdirectory(ext_lib/json)
+
+# GTest
+find_package(GTest QUIET)
+if (NOT GTest_FOUND)
+    message(WARNING "GTest not found!")
+endif ()
+
+
 set(SOURCES
-        main.cpp
-        GameScreen.cpp
-        Board.cpp
-        Tile.cpp
-        GameController.cpp
-        HexxagonGame.cpp
-        HexGridTools.cpp)
+        src/main.cpp
+        src/GameView.cpp
+        src/Board.cpp
+        src/Tile.cpp
+        src/GameScreen.cpp
+        src/HexxagonGame.cpp
+        src/HexGridTools.cpp
+        src/MenuScreen.cpp)
+
+file(GLOB CLIENTMESSAGES_SOURCES "network/messages/client/*.cpp")
+file(GLOB SERVERMESSAGES_SOURCES "network/messages/server/*.cpp")
+
+
+set(SOURCES ${SOURCES} ${CLIENTMESSAGES_SOURCES} ${SERVERMESSAGES_SOURCES} network/messages/Message.cpp)
 
 set(LIBS
         sfml-window
         sfml-graphics
-        sfml-system)
-
+        sfml-system
+        nlohmann_json::nlohmann_json)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBS})
+
+# GTest
+set(TEST_SOURCES
+        test/json.cpp)
+
+set(TEST_LIBS gtest gmock pthread
+        nlohmann_json::nlohmann_json)
+
+if (GTest_FOUND)
+    enable_testing()
+    include_directories(${GTEST_INCLUDE_DIR})
+    add_executable(unitTests test/main.cpp ${TEST_SOURCES})
+    target_link_libraries(unitTests ${TEST_LIBS})
+    add_test(
+            NAME unitTests
+            COMMAND unitTests
+    )
+endif ()

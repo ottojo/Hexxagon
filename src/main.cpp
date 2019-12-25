@@ -1,13 +1,17 @@
 #include <iostream>
-#include <sstream>
 #include <iomanip>
+#include <chrono>
 #include "Board.h"
-#include "GameScreen.h"
+#include "../inc/GameView.h"
+#include "../inc/GameScreen.h"
 
 
 int main() {
     Board b;
-    GameScreen gameScreen(b);
+    //GameView gameScreen(b);
+
+    GameScreen gameController;
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Hexxagon");
 
 
@@ -26,7 +30,6 @@ int main() {
 
     sf::Clock clock;
 
-
     while (window.isOpen()) {
         window.clear(sf::Color::Black);
         // check all the window's events that were triggered since the last iteration of the loop
@@ -35,32 +38,29 @@ int main() {
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed) {
                 window.close();
-            }
-
-            if (event.type == sf::Event::MouseMoved) {
-                auto axial = gameScreen.getCurrentCoordinate(window, {static_cast<float>(event.mouseMove.x),
-                                                                      static_cast<float>(event.mouseMove.y)});
-
-                std::stringstream stream;
-                stream << "X: " << axial.x << " Y: " << axial.y;
-
-                auto index = HexGridTools::indexFromAxial(axial);
-                if (index.has_value()) {
-                    stream << " Index: " << index.value();
-                }
-
-                positionText.setString(stream.str());
+                continue;
             }
 
             if (event.type == sf::Event::Resized) {
                 // update the view to the new size of the window
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 window.setView(sf::View(visibleArea));
+
+                continue;
+            }
+            auto start = std::chrono::system_clock::now();
+            auto didSomething = gameController.handleInput(event, window);
+            auto end = std::chrono::system_clock::now();
+            auto duration = end - start;
+            if (didSomething) {
+                std::cout << std::chrono::duration_cast<std::chrono::microseconds>(duration).count() << "µs"
+                          << std::endl;
             }
         }
 
 
-        gameScreen.render(window);
+
+        gameController.render(window);
 
         std::stringstream stream;
         stream << "FPS: " << std::setfill('0') << std::setw(8) << std::fixed << std::setprecision(2) << fps;
