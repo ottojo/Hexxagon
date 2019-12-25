@@ -6,7 +6,7 @@
 #define HEXXAGON_LEAVEGAME_H
 
 
-#include "../Message.h"
+#include "network/messages/Message.h"
 
 class LeaveGame : public Message {
 

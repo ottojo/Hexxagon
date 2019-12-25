@@ -6,7 +6,7 @@
 #define HEXXAGON_MENUSCREEN_H
 
 
-#include "../inc/Screen.h"
+#include "Screen.h"
 
 class MenuScreen: public Screen {
     ProgramState render(sf::RenderTarget &window) const override;

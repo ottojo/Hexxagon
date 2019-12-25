@@ -10,7 +10,7 @@
 
 
 #include "Screen.h"
-#include "../src/Board.h"
+#include "Board.h"
 #include "HexGridTools.h"
 
 class GameView {

@@ -6,7 +6,7 @@
 #define HEXXAGON_STARTGAME_H
 
 
-#include "../Message.h"
+#include "network/messages/Message.h"
 
 class StartGame : Message {
 

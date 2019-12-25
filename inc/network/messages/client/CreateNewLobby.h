@@ -6,7 +6,7 @@
 #define HEXXAGON_CREATENEWLOBBY_H
 
 
-#include "../Message.h"
+#include "network/messages/Message.h"
 
 class CreateNewLobby : public Message {
 

@@ -6,7 +6,7 @@
 #define HEXXAGON_LEAVELOBBY_H
 
 
-#include "../Message.h"
+#include "network/messages/Message.h"
 
 class LeaveLobby : public Message {
 

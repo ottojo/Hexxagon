@@ -6,7 +6,7 @@
 #define HEXXAGON_WELCOME_H
 
 #include <string>
-#include "../Message.h"
+#include "network/messages/Message.h"
 #include <nlohmann/json.hpp>
 
 class Welcome : public Message {

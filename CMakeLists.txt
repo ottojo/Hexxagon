@@ -38,18 +38,13 @@ set(SOURCES
         src/HexGridTools.cpp
         src/MenuScreen.cpp)
 
-file(GLOB CLIENTMESSAGES_SOURCES "network/messages/client/*.cpp")
-file(GLOB SERVERMESSAGES_SOURCES "network/messages/server/*.cpp")
-
-
-set(SOURCES ${SOURCES} ${CLIENTMESSAGES_SOURCES} ${SERVERMESSAGES_SOURCES} network/messages/Message.cpp)
-
 set(LIBS
         sfml-window
         sfml-graphics
         sfml-system
         nlohmann_json::nlohmann_json)
 
+include_directories(inc)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBS})

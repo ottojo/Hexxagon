@@ -9,7 +9,7 @@
 #define HEXXAGON_SCREEN_H
 
 #include <SFML/Graphics.hpp>
-#include "inc/ProgramState.h"
+#include "ProgramState.h"
 
 class Screen {
     virtual ProgramState render(sf::RenderTarget &window) const = 0;
