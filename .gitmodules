@@ -1,3 +1,6 @@
-[submodule "ext_lib/frozen"]
-	path = ext_lib/frozen
-	url = https://github.com/serge-sans-paille/frozen.git
+[submodule "ext_lib/json"]
+	path = ext_lib/json
+	url = https://github.com/nlohmann/json.git
+[submodule "ext_lib/googletest"]
+	path = ext_lib/googletest
+	url = https://github.com/google/googletest.git
