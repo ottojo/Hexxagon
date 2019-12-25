@@ -12,6 +12,8 @@ public:
     MessageType messageType;
 
     explicit Message(MessageType type) : messageType{type} {}
+
+    Message() : messageType{MessageType::INVALID} {}
 };
 
 

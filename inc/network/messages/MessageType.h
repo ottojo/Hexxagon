@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 
 enum class MessageType {
+    INVALID,
     Welcome,
     GetAvailableLobbies,
     AvailableLobbies,
@@ -26,6 +27,7 @@ enum class MessageType {
 };
 
 NLOHMANN_JSON_SERIALIZE_ENUM(MessageType, {
+    { MessageType::INVALID, nullptr },
     { MessageType::Welcome, "Welcome" },
     { MessageType::GetAvailableLobbies, "GetAvailableLobbies" },
     { MessageType::AvailableLobbies, "AvailableLobbies" },
