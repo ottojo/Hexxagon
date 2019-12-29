@@ -23,8 +23,8 @@ TEST(JsonDecoding, Welcome) {
     nlohmann::json j = nlohmann::json::parse(input);
     auto w = j.get<Welcome>();
     EXPECT_EQ(expected.messageType, w.messageType);
-    EXPECT_STREQ(expected.userId.c_str(), w.userId.c_str());
-    EXPECT_STREQ(expected.welcomeMessage.c_str(), w.welcomeMessage.c_str());
+    EXPECT_EQ(expected.userId, w.userId);
+    EXPECT_EQ(expected.welcomeMessage, w.welcomeMessage);
 }
 
 TEST(JsonDecoding, InvalidMessage) {

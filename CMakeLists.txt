@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Werror -mtune=native -march=native")
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fsanitize=address")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fsanitize=address --coverage")
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast")
 endif ()
@@ -28,21 +28,38 @@ if (NOT GTest_FOUND)
 endif ()
 
 
-set(SOURCES
-        src/main.cpp
-        src/GameView.cpp
-        src/Board.cpp
-        src/Tile.cpp
-        src/GameScreen.cpp
-        src/HexxagonGame.cpp
-        src/HexGridTools.cpp
-        src/MenuScreen.cpp)
+#set(SOURCES
+#        src/main.cpp
+#        src/GameView.cpp
+#        src/Board.cpp
+#        src/Tile.cpp
+#        src/GameScreen.cpp
+#        src/HexxagonGame.cpp
+#        src/HexGridTools.cpp
+#        src/MenuScreen.cpp
+#        src/util/FontUtil.cpp
+#        src/ServerConnection.cpp
+#        src/Program.cpp
+#        src/LobbyScreen.cpp)
+file(GLOB_RECURSE SOURCES src/*.cpp)
+
 
 set(LIBS
         sfml-window
         sfml-graphics
         sfml-system
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        gcov)
+
+if (USE_LOCAL_NETWORK)
+    include_directories(../WebsocketCPP/src)
+    include_directories(../WebsocketCPP/src/Client)
+    set(SOURCES ${SOURCES}
+            ${CMAKE_SOURCE_DIR}/../WebsocketCPP/src/Client/WebSocketClient.cpp)
+    set(LIBS ${LIBS} websockets)
+else ()
+    set(LIBS ${LIBS} SopraNetwork)
+endif ()
 
 include_directories(inc)
 
@@ -50,11 +67,13 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # GTest
-set(TEST_SOURCES
+file(GLOB_RECURSE TEST_SOURCES src/messages/*.cpp)
+set(TEST_SOURCES ${TEST_SOURCES}
         test/json.cpp)
 
 set(TEST_LIBS gtest gmock pthread
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        gcov)
 
 if (GTest_FOUND)
     enable_testing()
