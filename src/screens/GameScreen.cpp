@@ -5,7 +5,7 @@
  * Description here TODO
  */
 
-#include "../inc/GameScreen.h"
+#include "screens/GameScreen.h"
 #include <chrono>
 #include <sstream>
 

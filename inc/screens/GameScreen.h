@@ -14,7 +14,7 @@
 
 class GameScreen : Screen {
 public:
-    bool handleInput(sf::Event event, sf::RenderTarget &window);
+    bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
     // TODO: return next state?
     ProgramState render(sf::RenderTarget &window) const override;
