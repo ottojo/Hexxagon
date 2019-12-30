@@ -17,6 +17,8 @@ public:
     virtual ProgramState render(sf::RenderTarget &window) = 0;
 
     virtual bool handleInput(sf::Event event, sf::RenderTarget &window) = 0;
+
+    virtual void init() = 0;
 };
 
 

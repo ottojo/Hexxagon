@@ -59,3 +59,7 @@ void MenuScreen::handleWelcome(Welcome welcomeMessage) {
     std::cout << "Welcome message received in menu screen: " << welcomeMessage.welcomeMessage << " User: "
               << welcomeMessage.userId << std::endl;
 }
+
+void MenuScreen::init() {
+
+}

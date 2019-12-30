@@ -26,8 +26,15 @@ private:
     LobbySelectScreen lobbySelectScreen;
     GameEndScreen gameEndScreen;
 
+    bool initNextScreen = true;
+
     template<typename ScreenType>
     void runScreen(ScreenType &screen) {
+        if (initNextScreen) {
+            screen.init();
+            initNextScreen = false;
+        }
+
         sf::Event event{};
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -38,11 +45,14 @@ private:
             if (event.type == sf::Event::Resized) {
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 window.setView(sf::View(visibleArea));
-                //continue;
             }
             screen.handleInput(event, window);
         }
-        state = screen.render(window);
+        auto newState = screen.render(window);
+        if (newState != state) {
+            initNextScreen = true;
+        }
+        state = newState;
     }
 
 public:

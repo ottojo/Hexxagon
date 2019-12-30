@@ -35,3 +35,7 @@ ProgramState GameScreen::render(sf::RenderTarget &window) {
 GameScreen::GameScreen() :
         game(),
         view(game.getBoard()) {}
+
+void GameScreen::init() {
+
+}

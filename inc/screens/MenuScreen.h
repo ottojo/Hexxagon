@@ -19,6 +19,8 @@ public:
 
     ProgramState render(sf::RenderTarget &window) override;
 
+    void init() override;
+
 private:
     ServerConnection &serverConnection;
 

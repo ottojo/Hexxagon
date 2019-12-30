@@ -12,7 +12,7 @@
 #include "GameView.h"
 #include "HexxagonGame.h"
 
-class GameScreen : Screen {
+class GameScreen : public Screen {
 public:
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
@@ -20,6 +20,8 @@ public:
     ProgramState render(sf::RenderTarget &window) override;
 
     GameScreen();
+
+    void init() override;
 
 private:
     HexxagonGame game;

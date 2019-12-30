@@ -13,6 +13,8 @@ public:
     ProgramState render(sf::RenderTarget &window) override;
 
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
+
+    void init() override;
 };
 
 

@@ -11,3 +11,7 @@ ProgramState LobbySelectScreen::render(sf::RenderTarget &window) {
 bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     return false;
 }
+
+void LobbySelectScreen::init() {
+
+}
