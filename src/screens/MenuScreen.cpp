@@ -30,17 +30,26 @@ ProgramState MenuScreen::render(sf::RenderTarget &window) {
     window.draw(connectText);
     window.draw(exitText);
 
-    return ProgramState::MAIN_MENU;
+    return nextState;
 }
 
 bool MenuScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     if (event.type == sf::Event::MouseButtonPressed) {
-
+        auto click = window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y});
         auto connectTextBounds = connectText.getGlobalBounds();
-        if (connectTextBounds.contains(
-                window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y}))) {
+        if (connectTextBounds.contains(click)) {
+            lobbyText.setFillColor(sf::Color::Red);
             serverConnection.connect("hexxagon.otto.cool", 4444);
+            return true;
         }
+
+        auto lobbyTextBounds = lobbyText.getGlobalBounds();
+        if (lobbyTextBounds.contains(click)) {
+            if (serverConnection.isConnected()) {
+                nextState = ProgramState::LOBBY_SELECT;
+            }
+        }
+
     }
     return false;
 }
@@ -53,11 +62,13 @@ MenuScreen::MenuScreen(ServerConnection &serverConnection) :
         exitText("Exit Game", FontUtil::getDefaultFont()) {
     serverConnection.welcomeListener.subscribe(
             std::bind(&MenuScreen::handleWelcome, this, std::placeholders::_1));
+    lobbyText.setFillColor(sf::Color::Red);
 }
 
 void MenuScreen::handleWelcome(Welcome welcomeMessage) {
     std::cout << "Welcome message received in menu screen: " << welcomeMessage.welcomeMessage << " User: "
               << welcomeMessage.userId << std::endl;
+    lobbyText.setFillColor(sf::Color::Green);
 }
 
 void MenuScreen::init() {

@@ -31,6 +31,8 @@ private:
     sf::Text connectText;
     sf::Text exitText;
 
+    ProgramState nextState = ProgramState::MAIN_MENU;
+
     enum class SelectionState {
         LOBBY,
         SERVER_EDIT,
