@@ -27,7 +27,7 @@ bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     return false;
 }
 
-ProgramState GameScreen::render(sf::RenderTarget &window) const {
+ProgramState GameScreen::render(sf::RenderTarget &window) {
     view.render(window);
     return ProgramState::IN_GAME;
 }

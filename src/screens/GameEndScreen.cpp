@@ -4,7 +4,7 @@
 
 #include "screens/GameEndScreen.h"
 
-ProgramState GameEndScreen::render(sf::RenderTarget &window) const {
+ProgramState GameEndScreen::render(sf::RenderTarget &window) {
     return ProgramState::GAME_END;
 }
 

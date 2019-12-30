@@ -4,7 +4,7 @@
 
 #include "screens/LobbySelectScreen.h"
 
-ProgramState LobbySelectScreen::render(sf::RenderTarget &window) const {
+ProgramState LobbySelectScreen::render(sf::RenderTarget &window) {
     return ProgramState::LOBBY_SELECT;
 }
 

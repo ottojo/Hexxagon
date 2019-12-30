@@ -4,7 +4,7 @@
 
 #include "screens/LobbyScreen.h"
 
-ProgramState LobbyScreen::render(sf::RenderTarget &window) const {
+ProgramState LobbyScreen::render(sf::RenderTarget &window) {
     return ProgramState::LOBBY;
 }
 

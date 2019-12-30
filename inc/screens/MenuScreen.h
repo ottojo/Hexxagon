@@ -17,7 +17,7 @@ public:
 
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
-    ProgramState render(sf::RenderTarget &window) const override;
+    ProgramState render(sf::RenderTarget &window) override;
 
 private:
     ServerConnection &serverConnection;
