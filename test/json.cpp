@@ -28,7 +28,7 @@ TEST(JsonDecoding, Welcome) {
 }
 
 TEST(JsonDecoding, InvalidMessage) {
-    std::string input = R"({"messageType":"Blödsinn", "bla":"bla"})";
+    std::string input = R"({"messageType":"Blödsinn", "bla":"printTextPosition"})";
     auto m = nlohmann::json::parse(input).get<Message>();
     EXPECT_EQ(m.messageType, MessageType::INVALID);
 }

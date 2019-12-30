@@ -7,7 +7,8 @@ int main() {
     FontUtil::init("arial.ttf");
     sf::RenderWindow window(sf::VideoMode(800, 600), "Hexxagon");
 
-    Program hexagonProgram(window);
+    Program hexxagonProgram(window);
 
-    hexagonProgram.run();
+    std::cout << "Running hexxagonProgram" << std::endl;
+    hexxagonProgram.run();
 }

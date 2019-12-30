@@ -13,7 +13,7 @@ class MenuScreen : public Screen {
 
 public:
 
-    MenuScreen(ServerConnection &ServerConnection);
+    explicit MenuScreen(ServerConnection &ServerConnection);
 
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
@@ -23,6 +23,20 @@ private:
     ServerConnection &serverConnection;
 
     void handleWelcome(Welcome welcomeMessage);
+
+    sf::Text lobbyText;
+    sf::Text serverNameText;
+    sf::Text connectText;
+    sf::Text exitText;
+
+    enum class SelectionState {
+        LOBBY,
+        SERVER_EDIT,
+        CONNECT,
+        EXIT
+    };
+
+    SelectionState selectionState = SelectionState::LOBBY;
 
 };
 
