@@ -6,6 +6,7 @@
 #define HEXXAGON_MENUSCREEN_H
 
 
+#include <Player.h>
 #include "Screen.h"
 #include "ServerConnection.h"
 
@@ -13,7 +14,7 @@ class MenuScreen : public Screen {
 
 public:
 
-    explicit MenuScreen(ServerConnection &ServerConnection);
+    explicit MenuScreen(ServerConnection &ServerConnection, Player &self);
 
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
@@ -23,6 +24,8 @@ public:
 
 private:
     ServerConnection &serverConnection;
+
+    Player &self;
 
     void handleWelcome(Welcome welcomeMessage);
 

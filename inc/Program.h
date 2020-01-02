@@ -25,8 +25,9 @@ private:
     LobbyScreen lobbyScreen;
     LobbySelectScreen lobbySelectScreen;
     GameEndScreen gameEndScreen;
-
     bool initNextScreen = true;
+
+    Player self;
 
     template<typename ScreenType>
     void runScreen(ScreenType &screen) {

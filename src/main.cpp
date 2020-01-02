@@ -6,6 +6,7 @@
 int main() {
     FontUtil::init("arial.ttf");
     sf::RenderWindow window(sf::VideoMode(800, 600), "Hexxagon");
+    window.setFramerateLimit(200);
 
     Program hexxagonProgram(window);
 

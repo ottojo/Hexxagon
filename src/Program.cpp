@@ -8,7 +8,8 @@
 
 Program::Program(sf::RenderWindow &window) :
         window{window},
-        menuScreen(serverConnection) {
+        menuScreen(serverConnection, self),
+        lobbySelectScreen(serverConnection, self) {
     FontUtil::init("arial.ttf");
 }
 

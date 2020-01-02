@@ -8,12 +8,13 @@
 #include <string>
 #include "network/messages/Message.h"
 #include <nlohmann/json.hpp>
+#include <UUID.h>
 
 class Welcome : public Message {
 public:
     Welcome() : Message(MessageType::Welcome) {}
 
-    std::string userId;
+    UUID userId;
     std::string welcomeMessage;
 };
 
