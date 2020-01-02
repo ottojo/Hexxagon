@@ -6,12 +6,14 @@
 #define HEXXAGON_GRAPHICSUTIL_H
 
 
-#include <SFML/Graphics/Text.hpp>
-
 namespace util {
     class GraphicsUtil {
     public:
-        static void setOriginToCenter(sf::Text &object);
+        template<typename T>
+        static void setOriginToCenter(T &object) {
+            object.setOrigin(object.getLocalBounds().left + 0.5f * object.getLocalBounds().width,
+                             object.getLocalBounds().top + 0.5f * object.getLocalBounds().height);
+        }
     };
 }
 
