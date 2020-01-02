@@ -14,14 +14,6 @@ void ServerConnection::connect(const std::string &url, int port) {
     webSocketClient->receiveListener.subscribe(std::bind(&ServerConnection::receive, this, std::placeholders::_1));
 }
 
-void ServerConnection::send(Message message) {
-    if (!isConnected()) {
-        throw std::runtime_error("Message can not be sent, not connected to server.");
-    }
-
-    nlohmann::json encodedMessage = message;
-    webSocketClient->send(encodedMessage.dump());
-}
 
 void ServerConnection::receive(std::string message) {
     auto json = nlohmann::json::parse(message);

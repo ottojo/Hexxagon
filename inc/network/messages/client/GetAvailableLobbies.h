@@ -6,11 +6,20 @@
 #define HEXXAGON_GETAVAILABLELOBBIES_H
 
 
+#include <UUID.h>
 #include "network/messages/Message.h"
 
 class GetAvailableLobbies : public Message {
+public:
+    GetAvailableLobbies() : Message(MessageType::GetAvailableLobbies) {}
 
+    UUID userId;
 };
+
+
+void to_json(nlohmann::json &j, const GetAvailableLobbies &g);
+
+void from_json(const nlohmann::json &j, GetAvailableLobbies &g);
 
 
 #endif //HEXXAGON_GETAVAILABLELOBBIES_H

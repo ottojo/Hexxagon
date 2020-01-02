@@ -26,7 +26,15 @@ public:
 
     bool isConnected();
 
-    void send(Message message);
+    template <typename MessageType>
+    void send(MessageType message) {
+        if (!isConnected()) {
+            throw std::runtime_error("Message can not be sent, not connected to server.");
+        }
+
+        nlohmann::json encodedMessage = message;
+        webSocketClient->send(encodedMessage.dump());
+    }
 
     util::Listener<AvailableLobbies> availableLobbiesListener;
     util::Listener<GameStarted> gameStartedListener;
