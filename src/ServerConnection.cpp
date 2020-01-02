@@ -3,6 +3,7 @@
 //
 
 
+#include <iostream>
 #include "ServerConnection.h"
 
 bool ServerConnection::isConnected() {
@@ -16,6 +17,11 @@ void ServerConnection::connect(const std::string &url, int port) {
 
 
 void ServerConnection::receive(std::string message) {
+
+    if (debug) {
+        std::cout << "Recv message: " << message << std::endl;
+    }
+
     auto json = nlohmann::json::parse(message);
     auto genericMessage = json.get<Message>();
 

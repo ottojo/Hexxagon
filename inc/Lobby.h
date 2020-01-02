@@ -17,8 +17,8 @@ public:
     UUID id;
     std::string name;
 
-    Player player1;
-    Player player2;
+    std::optional<Player> player1;
+    std::optional<Player> player2;
 
     std::chrono::time_point<std::chrono::system_clock> creationTime;
 

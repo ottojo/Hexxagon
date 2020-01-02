@@ -7,30 +7,17 @@
 #include "screens/LobbySelectScreen.h"
 #include "view/TextBox.h"
 #include <network/messages/client/GetAvailableLobbies.h>
+#include <network/messages/client/CreateNewLobby.h>
 
-ProgramState LobbySelectScreen::render(sf::RenderTarget &window) {
-
-    window.draw(lobbyNameTextBox);
-    window.draw(refreshButton);
-    window.draw(createLobbyButton);
+ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
+    gui.draw();
 
     return ProgramState::LOBBY_SELECT;
 }
 
-bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
+bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &) {
 
-    if (event.type == sf::Event::TextEntered) {
-        lobbyNameTextBox.handleTextEvent(event.text);
-    } else if (event.type == sf::Event::MouseButtonPressed) {
-        auto clickLocation = window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y});
-        if (event.mouseButton.button == sf::Mouse::Left) {
-            if (refreshButton.getGlobalBounds().contains(clickLocation)) {
-                init();
-            }
-            lobbyNameTextBox.setActive(lobbyNameTextBox.getGlobalBounds().contains(clickLocation));
-        }
-    }
-
+    gui.handleEvent(event);
     return false;
 }
 
@@ -40,20 +27,39 @@ void LobbySelectScreen::init() {
     serverConnection.send(g);
 }
 
-void LobbySelectScreen::onAvailableLobbies(AvailableLobbies availableLobbies) {
+void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
+    lobbies = availableLobbies.lobbies;
 }
 
-LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self) :
-        lobbyNameTextBox{300, 50, "Lobby Name", FontUtil::getDefaultFont()},
-        createLobbyButton{250, 50, "Create Lobby", FontUtil::getDefaultFont()},
+void LobbySelectScreen::newLobby() {
+    CreateNewLobby c;
+    c.userId = self.id;
+    c.lobbyName = lobbyNameTextBox->getText();
+    serverConnection.send(c);
+    init();
+}
+
+LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window) :
+        window{window},
         serverConnection{serverConnection},
         self{self},
-        refreshButton(250, 50, "Refresh Lobbies", FontUtil::getDefaultFont()) {
+        gui{window},
+        lobbyNameTextBox{tgui::TextBox::create()},
+        createLobbyButton{tgui::Button::create("Create Lobby")},
+        refreshButton{tgui::Button::create("Refresh")} {
     serverConnection.availableLobbiesListener.subscribe(
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
-    lobbyNameTextBox.setActive(true);
-    lobbyNameTextBox.setPosition(50, 100);
-    refreshButton.setPosition(100, 400);
-    createLobbyButton.setPosition(400, 100);
+    lobbyNameTextBox->setPosition(50, 100);
+    gui.add(lobbyNameTextBox);
+
+    createLobbyButton->setPosition(400, 100);
+    createLobbyButton->connect("pressed", std::bind(&LobbySelectScreen::newLobby, this));
+    gui.add(createLobbyButton);
+
+    refreshButton->setPosition(500, 500);
+    refreshButton->connect("pressed", std::bind(&LobbySelectScreen::init, this));
+    gui.add(refreshButton);
+
+
 }

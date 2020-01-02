@@ -12,6 +12,8 @@
 #include <view/TextBox.h>
 #include <view/Button.h>
 #include "Screen.h"
+#include <TGUI/TGUI.hpp>
+
 
 class LobbySelectScreen : public Screen {
 public:
@@ -21,22 +23,28 @@ public:
 
     void init() override;
 
-    explicit LobbySelectScreen(ServerConnection &serverConnection, Player &self);
+    explicit LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window);
 
 private:
-    std::vector<Lobby> lobbys;
-
-    TextBox lobbyNameTextBox;
-
-    Button createLobbyButton;
+    sf::RenderTarget &window;
 
     ServerConnection &serverConnection;
 
     Player &self;
 
-    void onAvailableLobbies(AvailableLobbies availableLobbies);
+    std::vector<Lobby> lobbies;
 
-    Button refreshButton;
+    tgui::Gui gui;
+
+    tgui::TextBox::Ptr lobbyNameTextBox;
+
+    tgui::Button::Ptr createLobbyButton;
+
+    tgui::Button::Ptr refreshButton;
+
+    void onAvailableLobbies(const AvailableLobbies& availableLobbies);
+
+    void newLobby();
 };
 
 

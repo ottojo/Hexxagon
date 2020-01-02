@@ -19,14 +19,19 @@
 #include <network/messages/server/Strike.h>
 #include <network/messages/server/Welcome.h>
 
+#include <iostream>
+
 
 class ServerConnection {
 public:
+
+    explicit ServerConnection(bool debug = false) : debug{debug} {};
+
     void connect(const std::string &url, int port);
 
     bool isConnected();
 
-    template <typename MessageType>
+    template<typename MessageType>
     void send(MessageType message) {
         if (!isConnected()) {
             throw std::runtime_error("Message can not be sent, not connected to server.");
@@ -34,6 +39,10 @@ public:
 
         nlohmann::json encodedMessage = message;
         webSocketClient->send(encodedMessage.dump());
+
+        if (debug) {
+            std::cout << "Sent message: " << encodedMessage.dump() << std::endl;
+        }
     }
 
     util::Listener<AvailableLobbies> availableLobbiesListener;
@@ -49,6 +58,8 @@ private:
     std::optional<network::WebSocketClient> webSocketClient;
 
     void receive(std::string message);
+
+    bool debug;
 };
 
 

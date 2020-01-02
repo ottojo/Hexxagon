@@ -29,7 +29,7 @@ if (NOT GTest_FOUND)
 endif ()
 
 # SFML
-find_package(SFML REQUIRED system window graphics network audio)
+find_package(SFML COMPONENTS system window graphics REQUIRED)
 if (NOT SFML_FOUND)
     message(FATAL_ERROR "Could not find SFML")
 endif ()
@@ -43,7 +43,10 @@ endif ()
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
 set(LIBS
-        ${TGUI_LIBRARY} ${SFML_LIBRARIES}
+        tgui
+        sfml-system
+        sfml-window
+        sfml-graphics
         nlohmann_json::nlohmann_json
         gcov)
 

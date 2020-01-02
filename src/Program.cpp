@@ -7,9 +7,10 @@
 #include "Program.h"
 
 Program::Program(sf::RenderWindow &window) :
+        serverConnection{true},
         window{window},
         menuScreen(serverConnection, self),
-        lobbySelectScreen(serverConnection, self) {
+        lobbySelectScreen(serverConnection, self, window) {
     FontUtil::init("arial.ttf");
 }
 

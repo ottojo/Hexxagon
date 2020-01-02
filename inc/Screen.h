@@ -14,6 +14,7 @@
 class Screen {
 
 public:
+    // TODO: Refactor Screen so each screen holds reference to window for easier tgui integration
     virtual ProgramState render(sf::RenderTarget &window) = 0;
 
     virtual bool handleInput(sf::Event event, sf::RenderTarget &window) = 0;
