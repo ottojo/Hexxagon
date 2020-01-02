@@ -12,6 +12,7 @@ ProgramState LobbySelectScreen::render(sf::RenderTarget &window) {
 
     window.draw(lobbyNameTextBox);
     window.draw(refreshButton);
+    window.draw(createLobbyButton);
 
     return ProgramState::LOBBY_SELECT;
 }
@@ -31,6 +32,13 @@ bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
                 lobbyNameTextBox.setText(lobbyNameTextBox.getText() + event.text.unicode);
             }
         }
+    } else if (event.type == sf::Event::MouseButtonPressed) {
+        auto clickLocation = window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y});
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            if (refreshButton.getGlobalBounds().contains(clickLocation)) {
+                init();
+            }
+        }
     }
 
     return false;
@@ -48,12 +56,14 @@ void LobbySelectScreen::onAvailableLobbies(AvailableLobbies availableLobbies) {
 
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self) :
         lobbyNameTextBox{"Lobby Name", 300, FontUtil::getDefaultFont()},
+        createLobbyButton{250, 50, "Create Lobby", FontUtil::getDefaultFont()},
         serverConnection{serverConnection},
         self{self},
-        refreshButton(200, 40, "Refresh Lobbies", FontUtil::getDefaultFont()){
+        refreshButton(250, 50, "Refresh Lobbies", FontUtil::getDefaultFont()) {
     serverConnection.availableLobbiesListener.subscribe(
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
     lobbyNameTextBox.setActive(true);
-    lobbyNameTextBox.setPosition(100, 300);
+    lobbyNameTextBox.setPosition(50, 100);
     refreshButton.setPosition(100, 400);
+    createLobbyButton.setPosition(400, 100);
 }

@@ -28,6 +28,8 @@ private:
 
     TextBox lobbyNameTextBox;
 
+    Button createLobbyButton;
+
     ServerConnection &serverConnection;
 
     Player &self;
