@@ -20,24 +20,14 @@ ProgramState LobbySelectScreen::render(sf::RenderTarget &window) {
 bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
 
     if (event.type == sf::Event::TextEntered) {
-        if (lobbyNameTextBox.isActive()) {
-            if (event.text.unicode == '\b') {
-                // Backspace
-                // TODO handle empty textbox
-                // TODO move input handling to textbox
-                sf::String newString = lobbyNameTextBox.getText();
-                newString.erase(newString.getSize() - 1);
-                lobbyNameTextBox.setText(newString);
-            } else {
-                lobbyNameTextBox.setText(lobbyNameTextBox.getText() + event.text.unicode);
-            }
-        }
+        lobbyNameTextBox.handleTextEvent(event.text);
     } else if (event.type == sf::Event::MouseButtonPressed) {
         auto clickLocation = window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y});
         if (event.mouseButton.button == sf::Mouse::Left) {
             if (refreshButton.getGlobalBounds().contains(clickLocation)) {
                 init();
             }
+            lobbyNameTextBox.setActive(lobbyNameTextBox.getGlobalBounds().contains(clickLocation));
         }
     }
 
@@ -55,7 +45,7 @@ void LobbySelectScreen::onAvailableLobbies(AvailableLobbies availableLobbies) {
 }
 
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self) :
-        lobbyNameTextBox{"Lobby Name", 300, FontUtil::getDefaultFont()},
+        lobbyNameTextBox{300, 50, "Lobby Name", FontUtil::getDefaultFont()},
         createLobbyButton{250, 50, "Create Lobby", FontUtil::getDefaultFont()},
         serverConnection{serverConnection},
         self{self},

@@ -28,27 +28,22 @@ if (NOT GTest_FOUND)
     message(WARNING "GTest not found!")
 endif ()
 
+# SFML
+find_package(SFML REQUIRED system window graphics network audio)
+if (NOT SFML_FOUND)
+    message(FATAL_ERROR "Could not find SFML")
+endif ()
 
-#set(SOURCES
-#        src/main.cpp
-#        src/GameView.cpp
-#        src/Board.cpp
-#        src/Tile.cpp
-#        src/GameScreen.cpp
-#        src/HexxagonGame.cpp
-#        src/HexGridTools.cpp
-#        src/MenuScreen.cpp
-#        src/util/FontUtil.cpp
-#        src/ServerConnection.cpp
-#        src/Program.cpp
-#        src/LobbyScreen.cpp)
+# TGUI
+find_package(TGUI REQUIRED)
+if (NOT TGUI_FOUND)
+    message(FATAL_ERROR "Could not find TGUI")
+endif ()
+
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
-
 set(LIBS
-        sfml-window-d
-        sfml-graphics-d
-        sfml-system-d
+        ${TGUI_LIBRARY} ${SFML_LIBRARIES}
         nlohmann_json::nlohmann_json
         gcov)
 
