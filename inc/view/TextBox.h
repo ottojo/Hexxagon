@@ -12,7 +12,7 @@
 class TextBox : public sf::Transformable, public sf::Drawable {
 public:
 
-    TextBox(const std::string &text, float width, const sf::Font &font, unsigned int characterSize = 30);
+    TextBox(float width, float height, const std::string &text, const sf::Font &font, unsigned int characterSize = 30);
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -24,12 +24,20 @@ public:
 
     void setActive(bool newActive);
 
+    void handleTextEvent(sf::Event::TextEvent event);
+
+
+    sf::FloatRect getGlobalBounds() const;
+
+    sf::FloatRect getLocalBounds() const;
+
 private:
 
     sf::Text text;
     sf::RectangleShape border;
 
     bool active;
+
 };
 
 
