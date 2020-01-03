@@ -6,10 +6,17 @@
 #define HEXXAGON_GAMESTARTED_H
 
 
+#include <UUID.h>
 #include "network/messages/Message.h"
 
 class GameStarted : public Message {
+public:
+    GameStarted();
 
+    UUID userId;
+    UUID gameId;
+    // TODO chrono...
+    std::chrono::time_point<std::chrono::system_clock> creationDate;
 };
 
 
