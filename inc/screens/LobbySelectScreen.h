@@ -42,6 +42,8 @@ private:
 
     tgui::Button::Ptr refreshButton;
 
+    tgui::Button::Ptr leaveLobbyButton;
+
     tgui::ListBox::Ptr lobbyListBox;
 
     tgui::Label::Ptr statusLabel;
@@ -64,6 +66,8 @@ private:
     void onLobbyJoined(const LobbyJoined &lobbyJoined);
 
     void onLobbyStatus(const LobbyStatus &lobbyStatus);
+
+    void leaveLobby();
 };
 
 

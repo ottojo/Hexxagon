@@ -8,6 +8,7 @@
 #include <network/messages/client/GetAvailableLobbies.h>
 #include <network/messages/client/CreateNewLobby.h>
 #include <network/messages/client/JoinLobby.h>
+#include <network/messages/client/LeaveLobby.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
     gui.draw();
@@ -55,13 +56,24 @@ void LobbySelectScreen::newLobby() {
 }
 
 void LobbySelectScreen::joinLobby() {
-    UUID lobbyId = lobbyListBox->getSelectedItemId();
+    leaveLobby();
     JoinLobby j;
     j.userId = self.id;
     j.userName = "HansWurst";
-    j.lobbyId = lobbyId;
+    j.lobbyId = lobbyListBox->getSelectedItemId();
 
     serverConnection.send(j);
+}
+
+void LobbySelectScreen::leaveLobby() {
+    if (currentLobby.has_value()) {
+        LeaveLobby l;
+        l.userId = self.id;
+        l.lobbyId = currentLobby->id;
+        serverConnection.send(l);
+        // TODO remove race condition (sending "leave" and "join" at the same time)
+        //  (Probably not relevant, can join multiple lobbies at the same time)
+    }
 }
 
 void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
@@ -76,6 +88,7 @@ void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
 
 void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
     currentLobby = lobbyStatus.lobby;
+    leaveLobbyButton->setEnabled(currentLobby->player2->id == self.id);
 }
 
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window) :
@@ -86,6 +99,7 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
         lobbyNameEditBox{tgui::EditBox::create()},
         createLobbyButton{tgui::Button::create("Create Lobby")},
         refreshButton{tgui::Button::create("Refresh")},
+        leaveLobbyButton{tgui::Button::create("Leave Lobby")},
         lobbyListBox{tgui::ListBox::create()},
         statusLabel{tgui::Label::create()},
         lobbyCaptionLabel{tgui::Label::create("Lobby:")},
@@ -120,6 +134,12 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
                                tgui::bindBottom(lobbyListBox) + 20);
     refreshButton->connect("pressed", std::bind(&LobbySelectScreen::init, this));
     gui.add(refreshButton);
+
+    leaveLobbyButton->setPosition(tgui::bindLeft(refreshButton) - tgui::bindWidth(refreshButton) - 20,
+                                  tgui::bindTop(refreshButton));
+    leaveLobbyButton->connect("pressed", std::bind(&LobbySelectScreen::leaveLobby, this));
+    leaveLobbyButton->setEnabled(false);
+    gui.add(leaveLobbyButton);
 
     statusLabel->setPosition(tgui::bindLeft(lobbyListBox),
                              tgui::bindTop(lobbyListBox) - tgui::bindHeight(statusLabel) - 20);
@@ -156,5 +176,6 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
     playButton->setPosition(tgui::bindRight(lobbyListBox) - tgui::bindWidth(playButton),
                             tgui::bindTop(lobbyListBox) - tgui::bindHeight(playButton) - 20);
     playButton->setSize(100, 100);
+    playButton->setEnabled(false);
     gui.add(playButton);
 }
