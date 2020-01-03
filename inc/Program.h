@@ -6,7 +6,6 @@
 #define HEXXAGON_PROGRAM_H
 
 
-#include <screens/LobbyScreen.h>
 #include <screens/GameEndScreen.h>
 #include "ProgramState.h"
 #include "ServerConnection.h"
@@ -22,7 +21,6 @@ private:
 
     MenuScreen menuScreen;
     GameScreen gameScreen;
-    LobbyScreen lobbyScreen;
     LobbySelectScreen lobbySelectScreen;
     GameEndScreen gameEndScreen;
     bool initNextScreen = true;

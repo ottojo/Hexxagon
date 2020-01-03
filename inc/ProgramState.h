@@ -8,7 +8,6 @@
 enum class ProgramState {
     MAIN_MENU,
     LOBBY_SELECT,
-    LOBBY,
     IN_GAME,
     GAME_END
 };
