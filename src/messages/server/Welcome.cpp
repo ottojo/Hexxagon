@@ -2,7 +2,7 @@
 // Created by jonas on 29.12.19.
 //
 
-#include <network/messages/server/Welcome.h>
+#include <messages/server/Welcome.h>
 
 void to_json(nlohmann::json &j, const Welcome &w) {
     j["messageType"] = w.messageType;

@@ -2,7 +2,7 @@
 // Created by jonas on 30.12.19.
 //
 
-#include <network/messages/client/JoinLobby.h>
+#include <messages/client/JoinLobby.h>
 
 void to_json(nlohmann::json &j, const JoinLobby &l) {
     j["messageType"] = l.messageType;

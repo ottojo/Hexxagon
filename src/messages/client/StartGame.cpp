@@ -2,7 +2,7 @@
 // Created by jonas on 30.12.19.
 //
 
-#include <network/messages/client/StartGame.h>
+#include <messages/client/StartGame.h>
 
 void to_json(nlohmann::json &j, const StartGame &s) {
     j["messageType"] = s.messageType;

@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
-#include "network/messages/server/Welcome.h"
+#include "messages/server/Welcome.h"
 
 TEST(JsonEncoding, Welcome) {
     Welcome w;

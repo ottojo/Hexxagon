@@ -2,7 +2,7 @@
 // Created by jonas on 29.12.19.
 //
 
-#include <network/messages/Message.h>
+#include <messages/Message.h>
 
 void to_json(nlohmann::json &j, const Message &m) {
     j = {{"messageType", m.messageType}};

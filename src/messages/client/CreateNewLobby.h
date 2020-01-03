@@ -7,7 +7,7 @@
 
 
 #include <UUID.h>
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 
 class CreateNewLobby : public Message {
 public:

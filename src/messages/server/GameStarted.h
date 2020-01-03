@@ -8,7 +8,7 @@
 
 #include <UUID.h>
 #include <chrono>
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 
 class GameStarted : public Message {
 public:

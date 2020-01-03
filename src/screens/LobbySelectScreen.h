@@ -7,7 +7,7 @@
 
 
 #include <Lobby.h>
-#include <network/messages/server/AvailableLobbies.h>
+#include <messages/server/AvailableLobbies.h>
 #include <ServerConnection.h>
 #include "Screen.h"
 #include <TGUI/TGUI.hpp>

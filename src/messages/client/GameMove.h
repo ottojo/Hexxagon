@@ -6,7 +6,7 @@
 #define HEXXAGON_GAMEMOVE_H
 
 
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 
 class GameMove : public Message {
 

@@ -6,7 +6,7 @@
 #define HEXXAGON_GAMESTATUS_H
 
 
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 
 class GameStatus : public Message {
 

@@ -8,16 +8,16 @@
 
 #include <string>
 #include <WebSocketClient.hpp>
-#include <network/messages/Message.h>
+#include <messages/Message.h>
 
-#include <network/messages/server/AvailableLobbies.h>
-#include <network/messages/server/GameStarted.h>
-#include <network/messages/server/GameStatus.h>
-#include <network/messages/server/LobbyCreated.h>
-#include <network/messages/server/LobbyJoined.h>
-#include <network/messages/server/LobbyStatus.h>
-#include <network/messages/server/Strike.h>
-#include <network/messages/server/Welcome.h>
+#include <messages/server/AvailableLobbies.h>
+#include <messages/server/GameStarted.h>
+#include <messages/server/GameStatus.h>
+#include <messages/server/LobbyCreated.h>
+#include <messages/server/LobbyJoined.h>
+#include <messages/server/LobbyStatus.h>
+#include <messages/server/Strike.h>
+#include <messages/server/Welcome.h>
 
 #include <iostream>
 

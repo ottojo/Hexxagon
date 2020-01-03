@@ -8,7 +8,7 @@
 
 #include <UUID.h>
 #include <Lobby.h>
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 
 class LobbyStatus : public Message {
 public:

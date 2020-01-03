@@ -4,11 +4,11 @@
 
 #include <iostream>
 #include "screens/LobbySelectScreen.h"
-#include <network/messages/client/GetAvailableLobbies.h>
-#include <network/messages/client/CreateNewLobby.h>
-#include <network/messages/client/JoinLobby.h>
-#include <network/messages/client/LeaveLobby.h>
-#include <network/messages/client/StartGame.h>
+#include <messages/client/GetAvailableLobbies.h>
+#include <messages/client/CreateNewLobby.h>
+#include <messages/client/JoinLobby.h>
+#include <messages/client/LeaveLobby.h>
+#include <messages/client/StartGame.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
     gui.draw();

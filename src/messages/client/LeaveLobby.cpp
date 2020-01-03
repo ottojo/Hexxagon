@@ -2,7 +2,7 @@
 // Created by jonas on 30.12.19.
 //
 
-#include <network/messages/client/LeaveLobby.h>
+#include <messages/client/LeaveLobby.h>
 
 void to_json(nlohmann::json &j, const LeaveLobby &l) {
     j["messageType"] = l.messageType;

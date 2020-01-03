@@ -2,7 +2,7 @@
 // Created by jonas on 30.12.19.
 //
 
-#include <network/messages/client/GetAvailableLobbies.h>
+#include <messages/client/GetAvailableLobbies.h>
 
 void to_json(nlohmann::json &j, const GetAvailableLobbies &g) {
     j["messageType"] = g.messageType;

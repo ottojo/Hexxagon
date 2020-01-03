@@ -6,7 +6,7 @@
 #define HEXXAGON_AVAILABLELOBBIES_H
 
 
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 #include <UUID.h>
 #include <Lobby.h>
 

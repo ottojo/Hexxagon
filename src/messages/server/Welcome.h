@@ -6,7 +6,7 @@
 #define HEXXAGON_WELCOME_H
 
 #include <string>
-#include "network/messages/Message.h"
+#include "messages/Message.h"
 #include <nlohmann/json.hpp>
 #include <UUID.h>
 
