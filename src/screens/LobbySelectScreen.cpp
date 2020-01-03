@@ -4,16 +4,16 @@
 
 #include <iostream>
 #include "screens/LobbySelectScreen.h"
-#include "view/TextBox.h"
 #include <network/messages/client/GetAvailableLobbies.h>
 #include <network/messages/client/CreateNewLobby.h>
 #include <network/messages/client/JoinLobby.h>
 #include <network/messages/client/LeaveLobby.h>
+#include <network/messages/client/StartGame.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
     gui.draw();
 
-    return ProgramState::LOBBY_SELECT;
+    return nextState;
 }
 
 bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &) {
@@ -69,6 +69,18 @@ void LobbySelectScreen::joinLobby() {
     j.lobbyId = lobbyListBox->getSelectedItemId();
 
     serverConnection.send(j);
+}
+
+void LobbySelectScreen::startGame() {
+    if (!currentLobby.has_value()) {
+        statusLabel->setText("Can not start game (not in lobby).");
+        statusLabel->getRenderer()->setTextColor(sf::Color::Red);
+        return;
+    }
+    StartGame s;
+    s.userId = self.id;
+    s.lobbyId = currentLobby->id;
+    serverConnection.send(s);
 }
 
 void LobbySelectScreen::leaveLobby() {
@@ -130,6 +142,7 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
             std::bind(&LobbySelectScreen::onLobbyJoined, this, std::placeholders::_1));
     serverConnection.lobbyStatusListener.subscribe(
             std::bind(&LobbySelectScreen::onLobbyStatus, this, std::placeholders::_1));
+    serverConnection.gameStartedListener.subscribe([&](const GameStarted &) { nextState = ProgramState::IN_GAME; });
 
     // Center lobbyListBox
     lobbyListBox->setSize("80%", "30%");
@@ -193,6 +206,7 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
 
     playButton->setPosition(tgui::bindRight(lobbyListBox) - tgui::bindWidth(playButton),
                             tgui::bindTop(lobbyListBox) - tgui::bindHeight(playButton) - 20);
+    playButton->connect("pressed", std::bind(&LobbySelectScreen::startGame, this));
     playButton->setSize(100, 100);
     playButton->setEnabled(false);
     gui.add(playButton);

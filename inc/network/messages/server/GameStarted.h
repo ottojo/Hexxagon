@@ -7,6 +7,7 @@
 
 
 #include <UUID.h>
+#include <chrono>
 #include "network/messages/Message.h"
 
 class GameStarted : public Message {

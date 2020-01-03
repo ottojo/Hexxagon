@@ -38,9 +38,6 @@ void Program::run() {
             case ProgramState::LOBBY_SELECT:
                 runScreen(lobbySelectScreen);
                 break;
-            case ProgramState::LOBBY:
-                runScreen(lobbyScreen);
-                break;
             case ProgramState::IN_GAME:
                 runScreen(gameScreen);
                 break;

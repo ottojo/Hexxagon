@@ -9,8 +9,6 @@
 #include <Lobby.h>
 #include <network/messages/server/AvailableLobbies.h>
 #include <ServerConnection.h>
-#include <view/TextBox.h>
-#include <view/Button.h>
 #include "Screen.h"
 #include <TGUI/TGUI.hpp>
 
@@ -57,6 +55,8 @@ private:
 
     tgui::Button::Ptr playButton;
 
+    ProgramState nextState = ProgramState::LOBBY_SELECT;
+
     void onAvailableLobbies(const AvailableLobbies &availableLobbies);
 
     void newLobby();
@@ -68,6 +68,8 @@ private:
     void onLobbyStatus(const LobbyStatus &lobbyStatus);
 
     void leaveLobby();
+
+    void startGame();
 };
 
 
