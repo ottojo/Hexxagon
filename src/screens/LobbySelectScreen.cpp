@@ -71,6 +71,7 @@ void LobbySelectScreen::leaveLobby() {
         l.userId = self.id;
         l.lobbyId = currentLobby->id;
         serverConnection.send(l);
+        currentLobby.reset();
         // TODO remove race condition (sending "leave" and "join" at the same time)
         //  (Probably not relevant, can join multiple lobbies at the same time)
     }
