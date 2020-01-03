@@ -115,7 +115,8 @@ void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
     playerTwoLabel->setText(currentLobby->player2.value_or(Player("-", "")).name);
 
 
-    playButton->setEnabled(currentLobby->player1.has_value() and currentLobby->player2.has_value());
+    playButton->setEnabled(currentLobby->player1.has_value() and currentLobby->player2.has_value() and
+                           currentLobby->player1->id == self.id);
 
 }
 
