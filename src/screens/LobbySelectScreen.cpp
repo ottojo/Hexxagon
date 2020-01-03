@@ -7,6 +7,7 @@
 #include "view/TextBox.h"
 #include <network/messages/client/GetAvailableLobbies.h>
 #include <network/messages/client/CreateNewLobby.h>
+#include <network/messages/client/JoinLobby.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
     gui.draw();
@@ -30,11 +31,18 @@ void LobbySelectScreen::init() {
 
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
-    lobbies = availableLobbies.lobbies;
 
     lobbyListBox->removeAllItems();
-    for (const auto &lobby:lobbies) {
-        lobbyListBox->addItem(lobby.name + " (" + lobby.id + ")", lobby.id);
+    for (const auto &lobby:availableLobbies.lobbies) {
+        sf::String lobbyText = lobby.name;
+        if (lobby.player1.has_value()) {
+            lobbyText += " (" + lobby.player1->name;
+            if (lobby.player2.has_value()) {
+                lobbyText += ", " + lobby.player2->name;
+            }
+            lobbyText += ")";
+        }
+        lobbyListBox->addItem(lobbyText + " (" + lobby.id + ")", lobby.id);
     }
 }
 
@@ -46,6 +54,30 @@ void LobbySelectScreen::newLobby() {
     init();
 }
 
+void LobbySelectScreen::joinLobby() {
+    UUID lobbyId = lobbyListBox->getSelectedItemId();
+    JoinLobby j;
+    j.userId = self.id;
+    j.userName = "HansWurst";
+    j.lobbyId = lobbyId;
+
+    serverConnection.send(j);
+}
+
+void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
+    if (lobbyJoined.successfullyJoined) {
+        statusLabel->setText("Joining lobby was successful.");
+        statusLabel->getRenderer()->setTextColor(sf::Color::Green);
+    } else {
+        statusLabel->setText("Joining lobby was not successful.");
+        statusLabel->getRenderer()->setTextColor(sf::Color::Red);
+    }
+}
+
+void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
+    currentLobby = lobbyStatus.lobby;
+}
+
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window) :
         window{window},
         serverConnection{serverConnection},
@@ -54,12 +86,25 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
         lobbyNameEditBox{tgui::EditBox::create()},
         createLobbyButton{tgui::Button::create("Create Lobby")},
         refreshButton{tgui::Button::create("Refresh")},
-        lobbyListBox{tgui::ListBox::create()} {
+        lobbyListBox{tgui::ListBox::create()},
+        statusLabel{tgui::Label::create()},
+        lobbyCaptionLabel{tgui::Label::create("Lobby:")},
+        lobbyNameLabel{tgui::Label::create("TestLobby")},
+        playerCaptionLabel{tgui::Label::create("Players:")},
+        playerOneLabel{tgui::Label::create("PlayerOne")},
+        playerTwoLabel{tgui::Label::create("PlayerTwo")},
+        playButton{tgui::Button::create("PLAY")} {
     serverConnection.availableLobbiesListener.subscribe(
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
+    serverConnection.lobbyJoinedListener.subscribe(
+            std::bind(&LobbySelectScreen::onLobbyJoined, this, std::placeholders::_1));
+
     // Center lobbyListBox
-    lobbyListBox->setSize("80%", "60%");
-    lobbyListBox->setPosition("(parent.size - size) / 2");
+    lobbyListBox->setSize("80%", "30%");
+    lobbyListBox->setPosition((tgui::bindWidth(gui) - tgui::bindWidth(lobbyListBox)) / 2.0,
+                              tgui::bindHeight(gui) / 2.0);
+    lobbyListBox->connect(lobbyListBox->onDoubleClick.getName(),
+                          std::bind(&LobbySelectScreen::joinLobby, this));
     gui.add(lobbyListBox);
 
     lobbyNameEditBox->setDefaultText("New Lobby Name");
@@ -76,4 +121,40 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
     refreshButton->connect("pressed", std::bind(&LobbySelectScreen::init, this));
     gui.add(refreshButton);
 
+    statusLabel->setPosition(tgui::bindLeft(lobbyListBox),
+                             tgui::bindTop(lobbyListBox) - tgui::bindHeight(statusLabel) - 20);
+    gui.add(statusLabel);
+
+    playerTwoLabel->setPosition(tgui::bindLeft(playerOneLabel),
+                                tgui::bindTop(statusLabel) - tgui::bindHeight(playerTwoLabel) - 20);
+    playerTwoLabel->getRenderer()->setTextColor(sf::Color::White);
+    playerTwoLabel->setTextSize(30);
+    gui.add(playerTwoLabel);
+
+    playerOneLabel->setPosition(tgui::bindRight(playerCaptionLabel) + 20,
+                                tgui::bindTop(playerTwoLabel) - tgui::bindHeight(playerOneLabel));
+    playerOneLabel->getRenderer()->setTextColor(sf::Color::White);
+    playerOneLabel->setTextSize(30);
+    gui.add(playerOneLabel);
+
+    playerCaptionLabel->setPosition(tgui::bindLeft(lobbyListBox), tgui::bindTop(playerOneLabel));
+    playerCaptionLabel->getRenderer()->setTextColor(sf::Color::White);
+    playerCaptionLabel->setTextSize(30);
+    gui.add(playerCaptionLabel);
+
+    lobbyCaptionLabel->setPosition(tgui::bindLeft(playerCaptionLabel),
+                                   tgui::bindTop(playerCaptionLabel) - tgui::bindHeight(lobbyCaptionLabel) - 20);
+    lobbyCaptionLabel->getRenderer()->setTextColor(sf::Color::White);
+    lobbyCaptionLabel->setTextSize(30);
+    gui.add(lobbyCaptionLabel);
+
+    lobbyNameLabel->setPosition(tgui::bindRight(lobbyCaptionLabel) + 20, tgui::bindTop(lobbyCaptionLabel));
+    lobbyNameLabel->getRenderer()->setTextColor(sf::Color::White);
+    lobbyNameLabel->setTextSize(30);
+    gui.add(lobbyNameLabel);
+
+    playButton->setPosition(tgui::bindRight(lobbyListBox) - tgui::bindWidth(playButton),
+                            tgui::bindTop(lobbyListBox) - tgui::bindHeight(playButton) - 20);
+    playButton->setSize(100, 100);
+    gui.add(playButton);
 }

@@ -25,12 +25,11 @@ void from_json(const nlohmann::json &j, Lobby &l) {
     j.at("lobbyId").get_to(l.id);
     j.at("lobbyName").get_to(l.name);
     if (j.find("playerOne") != j.end() and j.find("playerOneUserName") != j.end()) {
-        j.at("playerOne").get_to(l.player1->id);
-        j.at("playerOneUserName").get_to(l.player1->name);
+        l.player1.emplace(j.at("playerOneUserName"), j.at("playerOne"));
     }
     if (j.find("playerTwo") != j.end() and j.find("playerTwoUserName") != j.end()) {
-        j.at("playerTwo").get_to(l.player2->id);
-        j.at("playerTwoUserName").get_to(l.player2->name);
+        l.player2.emplace(j.at("playerTwoUserName"), j.at("playerTwo"));
+
     }
     // TODO chrono bums
     //j.at("creationDate") .get_to( l.creationTime);

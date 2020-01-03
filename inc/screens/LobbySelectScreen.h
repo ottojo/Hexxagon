@@ -32,7 +32,7 @@ private:
 
     Player &self;
 
-    std::vector<Lobby> lobbies;
+    std::optional<Lobby> currentLobby;
 
     tgui::Gui gui;
 
@@ -44,9 +44,26 @@ private:
 
     tgui::ListBox::Ptr lobbyListBox;
 
-    void onAvailableLobbies(const AvailableLobbies& availableLobbies);
+    tgui::Label::Ptr statusLabel;
+
+    tgui::Label::Ptr lobbyCaptionLabel;
+    tgui::Label::Ptr lobbyNameLabel;
+
+    tgui::Label::Ptr playerCaptionLabel;
+    tgui::Label::Ptr playerOneLabel;
+    tgui::Label::Ptr playerTwoLabel;
+
+    tgui::Button::Ptr playButton;
+
+    void onAvailableLobbies(const AvailableLobbies &availableLobbies);
 
     void newLobby();
+
+    void joinLobby();
+
+    void onLobbyJoined(const LobbyJoined &lobbyJoined);
+
+    void onLobbyStatus(const LobbyStatus &lobbyStatus);
 };
 
 

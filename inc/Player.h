@@ -9,6 +9,10 @@
 
 class Player {
 public:
+    Player();
+
+    Player(std::string name, UUID id);
+
     std::string name;
     UUID id;
 };

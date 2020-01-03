@@ -6,11 +6,19 @@
 #define HEXXAGON_JOINLOBBY_H
 
 
+#include <UUID.h>
 #include "network/messages/Message.h"
 
 class JoinLobby : public Message {
-
+public:
+    JoinLobby() : Message(MessageType::JoinLobby) {};
+    UUID userId;
+    UUID lobbyId;
+    std::string userName;
 };
 
+void to_json(nlohmann::json &j, const JoinLobby &l);
+
+void from_json(const nlohmann::json &j, JoinLobby &l);
 
 #endif //HEXXAGON_JOINLOBBY_H
