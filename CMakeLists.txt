@@ -85,5 +85,5 @@ if (GTest_FOUND)
     )
 endif ()
 
-add_executable(networkTest networkTest.cpp src/util/FontUtil.cpp src/util/GraphicsUtil.cpp src/view/Button.cpp)
+add_executable(networkTest networkTest.cpp src/util/FontUtil.cpp src/util/GraphicsUtil.cpp)
 target_link_libraries(networkTest ${LIBS})
