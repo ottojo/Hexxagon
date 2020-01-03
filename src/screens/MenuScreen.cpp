@@ -57,10 +57,10 @@ bool MenuScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
 MenuScreen::MenuScreen(ServerConnection &ServerConnection, Player &self) :
         serverConnection{ServerConnection},
         self{self},
-        lobbyText("Find Lobby", FontUtil::getDefaultFont()),
-        serverNameText("hexxagon.otto.cool:4444", FontUtil::getDefaultFont()),
-        connectText("Connect", FontUtil::getDefaultFont()),
-        exitText("Exit Game", FontUtil::getDefaultFont()) {
+        lobbyText("Find Lobby", util::FontUtil::getDefaultFont()),
+        serverNameText("hexxagon.otto.cool:4444", util::FontUtil::getDefaultFont()),
+        connectText("Connect", util::FontUtil::getDefaultFont()),
+        exitText("Exit Game", util::FontUtil::getDefaultFont()) {
     ServerConnection.welcomeListener.subscribe(
             std::bind(&MenuScreen::handleWelcome, this, std::placeholders::_1));
     lobbyText.setFillColor(sf::Color::Red);

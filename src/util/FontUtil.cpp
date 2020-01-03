@@ -4,13 +4,13 @@
 
 #include "util/FontUtil.h"
 
-sf::Font FontUtil::defaultFont;
+sf::Font util::FontUtil::defaultFont;
 
-const sf::Font &FontUtil::getDefaultFont() {
+const sf::Font &util::FontUtil::getDefaultFont() {
     return defaultFont;
 }
 
-void FontUtil::init(const std::string& font) {
+void util::FontUtil::init(const std::string& font) {
     if (!defaultFont.loadFromFile(font)) {
         throw std::runtime_error("Loading font \"" + font + "\" failed");
     }

@@ -4,7 +4,7 @@
 #include <util/FontUtil.h>
 
 int main() {
-    FontUtil::init("arial.ttf");
+    util::FontUtil::init("arial.ttf");
     sf::RenderWindow window(sf::VideoMode(800, 600), "Hexxagon");
     window.setFramerateLimit(200);
 

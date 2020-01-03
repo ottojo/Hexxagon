@@ -11,7 +11,7 @@ Program::Program(sf::RenderWindow &window) :
         window{window},
         menuScreen(serverConnection, self),
         lobbySelectScreen(serverConnection, self, window) {
-    FontUtil::init("arial.ttf");
+    util::FontUtil::init("arial.ttf");
 }
 
 
@@ -19,10 +19,10 @@ void Program::run() {
 
     float fps = 1;
 
-    sf::Text fpsText("", FontUtil::getDefaultFont());
+    sf::Text fpsText("", util::FontUtil::getDefaultFont());
     fpsText.setFillColor(sf::Color::Blue);
 
-    sf::Text positionText("", FontUtil::getDefaultFont());
+    sf::Text positionText("", util::FontUtil::getDefaultFont());
     positionText.setFillColor(sf::Color::Blue);
     positionText.setPosition(0, 50);
 
