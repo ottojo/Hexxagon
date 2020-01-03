@@ -44,6 +44,12 @@ void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobb
             lobbyText += ")";
         }
         lobbyListBox->addItem(lobbyText + " (" + lobby.id + ")", lobby.id);
+
+        // TODO do this again but think at the same time
+        if (lobby.player1.value_or(Player()).id == self.id or lobby.player2.value_or(Player()).id == self.id or
+            lobby.id == currentLobby.value_or(Lobby()).id) {
+            currentLobby = lobby;
+        }
     }
 }
 
@@ -89,7 +95,16 @@ void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
 
 void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
     currentLobby = lobbyStatus.lobby;
-    leaveLobbyButton->setEnabled(currentLobby->player2->id == self.id);
+    leaveLobbyButton->setEnabled(currentLobby->player2.value_or(Player()).id == self.id or
+                                 currentLobby->player1.value_or(Player()).id == self.id);
+
+    lobbyNameLabel->setText(currentLobby->name + " (" + currentLobby->id + ")");
+    playerOneLabel->setText(currentLobby->player1.value_or(Player("-", "")).name);
+    playerTwoLabel->setText(currentLobby->player2.value_or(Player("-", "")).name);
+
+
+    playButton->setEnabled(currentLobby->player1.has_value() and currentLobby->player2.has_value());
+
 }
 
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window) :
@@ -113,6 +128,8 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
     serverConnection.lobbyJoinedListener.subscribe(
             std::bind(&LobbySelectScreen::onLobbyJoined, this, std::placeholders::_1));
+    serverConnection.lobbyStatusListener.subscribe(
+            std::bind(&LobbySelectScreen::onLobbyStatus, this, std::placeholders::_1));
 
     // Center lobbyListBox
     lobbyListBox->setSize("80%", "30%");
