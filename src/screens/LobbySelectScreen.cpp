@@ -2,7 +2,6 @@
 // Created by jonas on 29.12.19.
 //
 
-#include <util/FontUtil.h>
 #include <iostream>
 #include "screens/LobbySelectScreen.h"
 #include "view/TextBox.h"
@@ -16,7 +15,9 @@ ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
 }
 
 bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &) {
-
+    if (event.type == sf::Event::Resized) {
+        gui.setView(window.getView());
+    }
     gui.handleEvent(event);
     return false;
 }
@@ -30,12 +31,17 @@ void LobbySelectScreen::init() {
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
     lobbies = availableLobbies.lobbies;
+
+    lobbyListBox->removeAllItems();
+    for (const auto &lobby:lobbies) {
+        lobbyListBox->addItem(lobby.name + " (" + lobby.id + ")", lobby.id);
+    }
 }
 
 void LobbySelectScreen::newLobby() {
     CreateNewLobby c;
     c.userId = self.id;
-    c.lobbyName = lobbyNameTextBox->getText();
+    c.lobbyName = lobbyNameEditBox->getText();
     serverConnection.send(c);
     init();
 }
@@ -45,21 +51,29 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
         serverConnection{serverConnection},
         self{self},
         gui{window},
-        lobbyNameTextBox{tgui::TextBox::create()},
+        lobbyNameEditBox{tgui::EditBox::create()},
         createLobbyButton{tgui::Button::create("Create Lobby")},
-        refreshButton{tgui::Button::create("Refresh")} {
+        refreshButton{tgui::Button::create("Refresh")},
+        lobbyListBox{tgui::ListBox::create()} {
     serverConnection.availableLobbiesListener.subscribe(
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
-    lobbyNameTextBox->setPosition(50, 100);
-    gui.add(lobbyNameTextBox);
+    // Center lobbyListBox
+    lobbyListBox->setSize("80%", "60%");
+    lobbyListBox->setPosition("(parent.size - size) / 2");
+    gui.add(lobbyListBox);
 
-    createLobbyButton->setPosition(400, 100);
+    lobbyNameEditBox->setDefaultText("New Lobby Name");
+    lobbyNameEditBox->setPosition(tgui::bindLeft(lobbyListBox),
+                                  tgui::bindBottom(lobbyListBox) + 20);
+    gui.add(lobbyNameEditBox);
+
+    createLobbyButton->setPosition(tgui::bindRight(lobbyNameEditBox) + 20, tgui::bindTop(lobbyNameEditBox));
     createLobbyButton->connect("pressed", std::bind(&LobbySelectScreen::newLobby, this));
     gui.add(createLobbyButton);
 
-    refreshButton->setPosition(500, 500);
+    refreshButton->setPosition(tgui::bindRight(lobbyListBox) - tgui::bindWidth(refreshButton),
+                               tgui::bindBottom(lobbyListBox) + 20);
     refreshButton->connect("pressed", std::bind(&LobbySelectScreen::init, this));
     gui.add(refreshButton);
-
 
 }

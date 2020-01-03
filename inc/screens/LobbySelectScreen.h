@@ -36,11 +36,13 @@ private:
 
     tgui::Gui gui;
 
-    tgui::TextBox::Ptr lobbyNameTextBox;
+    tgui::EditBox::Ptr lobbyNameEditBox;
 
     tgui::Button::Ptr createLobbyButton;
 
     tgui::Button::Ptr refreshButton;
+
+    tgui::ListBox::Ptr lobbyListBox;
 
     void onAvailableLobbies(const AvailableLobbies& availableLobbies);
 
