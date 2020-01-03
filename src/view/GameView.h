@@ -9,9 +9,9 @@
 #define HEXXAGON_GAMEVIEW_H
 
 
-#include "Screen.h"
-#include "Board.h"
-#include "HexGridTools.h"
+#include "screens/Screen.h"
+#include "model/Board.h"
+#include "util/HexGridTools.h"
 
 class GameView {
 public:

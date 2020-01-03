@@ -5,7 +5,7 @@
  * Description here TODO
  */
 
-#include "../inc/Tile.h"
+#include "Tile.h"
 
 TileState Tile::getState() const {
     return state;

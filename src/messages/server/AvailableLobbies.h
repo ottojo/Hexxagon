@@ -7,8 +7,8 @@
 
 
 #include "messages/Message.h"
-#include <UUID.h>
-#include <Lobby.h>
+#include <util/UUID.h>
+#include <model/Lobby.h>
 
 class AvailableLobbies : public Message {
 public:

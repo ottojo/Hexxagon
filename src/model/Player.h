@@ -5,7 +5,7 @@
 #ifndef HEXXAGON_PLAYER_H
 #define HEXXAGON_PLAYER_H
 
-#include <UUID.h>
+#include <util/UUID.h>
 
 class Player {
 public:

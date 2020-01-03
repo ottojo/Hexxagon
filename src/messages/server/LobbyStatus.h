@@ -6,8 +6,8 @@
 #define HEXXAGON_LOBBYSTATUS_H
 
 
-#include <UUID.h>
-#include <Lobby.h>
+#include <util/UUID.h>
+#include <model/Lobby.h>
 #include "messages/Message.h"
 
 class LobbyStatus : public Message {

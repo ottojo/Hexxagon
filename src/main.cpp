@@ -1,6 +1,6 @@
 
 #include <screens/MenuScreen.h>
-#include <Program.h>
+#include <controller/Program.h>
 #include <util/FontUtil.h>
 
 int main() {

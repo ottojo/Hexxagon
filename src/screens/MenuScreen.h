@@ -6,9 +6,9 @@
 #define HEXXAGON_MENUSCREEN_H
 
 
-#include <Player.h>
+#include <model/Player.h>
 #include "Screen.h"
-#include "ServerConnection.h"
+#include "network/ServerConnection.h"
 
 class MenuScreen : public Screen {
 

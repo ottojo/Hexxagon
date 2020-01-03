@@ -6,7 +6,7 @@
 #define HEXXAGON_JOINLOBBY_H
 
 
-#include <UUID.h>
+#include <util/UUID.h>
 #include "messages/Message.h"
 
 class JoinLobby : public Message {

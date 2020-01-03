@@ -6,9 +6,9 @@
 #define HEXXAGON_LOBBYSELECTSCREEN_H
 
 
-#include <Lobby.h>
+#include <model/Lobby.h>
 #include <messages/server/AvailableLobbies.h>
-#include <ServerConnection.h>
+#include <network/ServerConnection.h>
 #include "Screen.h"
 #include <TGUI/TGUI.hpp>
 

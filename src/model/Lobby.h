@@ -7,8 +7,8 @@
 
 
 #include <string>
-#include <UUID.h>
-#include <Player.h>
+#include <util/UUID.h>
+#include <model/Player.h>
 #include <chrono>
 #include <nlohmann/json.hpp>
 

@@ -8,7 +8,7 @@
 
 #include <screens/GameEndScreen.h>
 #include "ProgramState.h"
-#include "ServerConnection.h"
+#include "network/ServerConnection.h"
 #include "screens/MenuScreen.h"
 #include "screens/GameScreen.h"
 #include "screens/LobbySelectScreen.h"

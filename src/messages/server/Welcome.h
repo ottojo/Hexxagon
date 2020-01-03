@@ -8,7 +8,7 @@
 #include <string>
 #include "messages/Message.h"
 #include <nlohmann/json.hpp>
-#include <UUID.h>
+#include <util/UUID.h>
 
 class Welcome : public Message {
 public:

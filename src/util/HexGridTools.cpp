@@ -5,7 +5,7 @@
  * Description here TODO
  */
 
-#include "../inc/HexGridTools.h"
+#include "util/HexGridTools.h"
 #include <cmath>
 
 const CartCoordinate HexGridTools::q_base{3.0f / 2.0f, std::sqrt(3.0f) / 2.0f};

@@ -6,7 +6,7 @@
 #define HEXXAGON_GETAVAILABLELOBBIES_H
 
 
-#include <UUID.h>
+#include <util/UUID.h>
 #include "messages/Message.h"
 
 class GetAvailableLobbies : public Message {

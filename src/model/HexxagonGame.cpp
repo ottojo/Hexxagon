@@ -5,7 +5,7 @@
  * Description here TODO
  */
 
-#include "HexxagonGame.h"
+#include "model/HexxagonGame.h"
 
 void HexxagonGame::doMove(int from, int to) {
 }

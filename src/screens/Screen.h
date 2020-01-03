@@ -9,7 +9,7 @@
 #define HEXXAGON_SCREEN_H
 
 #include <SFML/Graphics.hpp>
-#include "ProgramState.h"
+#include "controller/ProgramState.h"
 
 class Screen {
 

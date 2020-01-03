@@ -6,7 +6,7 @@
 #define HEXXAGON_STARTGAME_H
 
 
-#include <UUID.h>
+#include <util/UUID.h>
 #include "messages/Message.h"
 
 class StartGame : public Message {

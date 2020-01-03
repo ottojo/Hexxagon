@@ -9,7 +9,7 @@
 #define HEXXAGON_HEXXAGONGAME_H
 
 
-#include "Board.h"
+#include "model/Board.h"
 
 class HexxagonGame {
 

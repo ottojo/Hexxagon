@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "../inc/GameView.h"
-#include "../inc/HexGridTools.h"
+#include "view/GameView.h"
+#include "util/HexGridTools.h"
 
 void GameView::render(sf::RenderTarget &window) const {
     float r = radius;

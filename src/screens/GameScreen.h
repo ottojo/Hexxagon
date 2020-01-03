@@ -9,8 +9,8 @@
 #define HEXXAGON_GAMESCREEN_H
 
 
-#include "GameView.h"
-#include "HexxagonGame.h"
+#include "view/GameView.h"
+#include "model/HexxagonGame.h"
 
 class GameScreen : public Screen {
 public:

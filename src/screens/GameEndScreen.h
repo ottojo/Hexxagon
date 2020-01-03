@@ -6,7 +6,7 @@
 #define HEXXAGON_GAMEENDSCREEN_H
 
 
-#include <Screen.h>
+#include <screens/Screen.h>
 
 class GameEndScreen : public Screen {
 public:
