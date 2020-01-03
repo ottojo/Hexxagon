@@ -60,7 +60,7 @@ else ()
     set(LIBS ${LIBS} SopraNetwork)
 endif ()
 
-include_directories(inc)
+include_directories(inc src)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBS})
