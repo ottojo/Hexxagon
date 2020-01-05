@@ -27,14 +27,24 @@ bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     return false;
 }
 
+void GameScreen::updateGameStatus(GameStatus gameStatus) {
+    std::cout << "Received GameStatus" << std::endl;
+    game.setBoard(gameStatus.board);
+    view.setBoard(game.getBoard());
+}
+
 ProgramState GameScreen::render(sf::RenderTarget &window) {
     view.render(window);
     return ProgramState::IN_GAME;
 }
 
-GameScreen::GameScreen() :
+GameScreen::GameScreen(ServerConnection &connection) :
         game(),
-        view(game.getBoard()) {}
+        serverConnection{connection},
+        view(game.getBoard()) {
+    serverConnection.gameStatusListener.subscribe(
+            std::bind(&GameScreen::updateGameStatus, this, std::placeholders::_1));
+}
 
 void GameScreen::init() {
 

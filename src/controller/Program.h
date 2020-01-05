@@ -20,8 +20,8 @@ private:
     sf::RenderWindow &window;
 
     MenuScreen menuScreen;
-    GameScreen gameScreen;
     LobbySelectScreen lobbySelectScreen;
+    GameScreen gameScreen;
     GameEndScreen gameEndScreen;
     bool initNextScreen = true;
 

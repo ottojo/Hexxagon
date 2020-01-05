@@ -10,6 +10,7 @@
 
 
 #include <map>
+#include <nlohmann/json.hpp>
 #include "Tile.h"
 
 class Board {
@@ -19,6 +20,11 @@ public:
     std::vector<int> getNeighbors(int tile);
 
     [[nodiscard]] const std::map<int, Tile> &getTiles() const;
+
+    // TODO (or not, not relevant for the client)
+    // friend void to_json(nlohmann::json &j, const Board &b);
+
+    friend void from_json(const nlohmann::json &j, Board &b);
 
 private:
     std::map<int, Tile> tiles;

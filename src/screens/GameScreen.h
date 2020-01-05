@@ -9,6 +9,7 @@
 #define HEXXAGON_GAMESCREEN_H
 
 
+#include <network/ServerConnection.h>
 #include "view/GameView.h"
 #include "model/HexxagonGame.h"
 
@@ -16,16 +17,20 @@ class GameScreen : public Screen {
 public:
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
-    // TODO: return next state?
     ProgramState render(sf::RenderTarget &window) override;
 
-    GameScreen();
+    GameScreen(ServerConnection &connection);
 
     void init() override;
 
 private:
     HexxagonGame game;
+
+    ServerConnection &serverConnection;
+
     GameView view;
+
+    void updateGameStatus(GameStatus gameStatus);
 };
 
 

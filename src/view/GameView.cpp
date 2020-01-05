@@ -45,18 +45,36 @@ void GameView::render(sf::RenderTarget &window) const {
                     "Axial coordinate for tile with index " + std::to_string(index) + " not found.");
         }
         auto[x, y] = r * HexGridTools::cartesianFromAxial(axial.value());
-        drawHex(window, x, y, boardTransform);
-        // TODO draw state of tile
+
+        sf::Color tileColor;
+        switch (tile.getState()) {
+            case TileState::FREE:
+                tileColor = sf::Color::White;
+                break;
+            case TileState::PLAYERONE:
+                tileColor = sf::Color::Blue;
+                break;
+            case TileState::PLAYERTWO:
+                tileColor = sf::Color::Red;
+                break;
+            case TileState::BLOCKED:
+                tileColor = sf::Color::Black;
+                break;
+        }
+
+        drawHex(window, x, y, boardTransform, tileColor);
     }
 }
 
-void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform) const {
+void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform,
+                       sf::Color color) const {
     sf::CircleShape hex(radius, 6);
     hex.setOrigin(radius, radius);
     hex.setRotation(30);
     hex.setPosition(centerX, centerY);
     hex.setOutlineThickness(1);
     hex.setOutlineColor(sf::Color::Green);
+    hex.setFillColor(color);
     window.draw(hex, boardTransform);
 }
 
@@ -77,4 +95,12 @@ AxialCoordinate GameView::getCurrentCoordinate(sf::RenderTarget &window, sf::Vec
     auto cartCoord = (1 / radius) * boardToHex.transformPoint(location);
 
     return HexGridTools::axialFromCartesian(cartCoord);
+}
+
+const Board &GameView::getBoard() const {
+    return board;
+}
+
+void GameView::setBoard(const Board &setBoard) {
+    GameView::board = setBoard;
 }

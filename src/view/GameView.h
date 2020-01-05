@@ -21,10 +21,15 @@ public:
 
     AxialCoordinate getCurrentCoordinate(sf::RenderTarget &window, sf::Vector2f location) const;
 
-private:
-    const Board &board;
+    const Board &getBoard() const;
 
-    void drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform) const;
+    void setBoard(const Board &setBoard);
+
+private:
+    Board board;
+
+    void drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform,
+                 sf::Color color) const;
 
     sf::Vector2f boardScaling;
 

@@ -32,6 +32,8 @@ public:
     bool verifyMove(int from, int to);
 
     [[nodiscard]] Board &getBoard();
+
+    void setBoard(const Board &newBoard);
 };
 
 

@@ -17,3 +17,7 @@ bool HexxagonGame::verifyMove(int from, int to) {
 Board &HexxagonGame::getBoard() {
     return board;
 }
+
+void HexxagonGame::setBoard(const Board &newBoard) {
+    HexxagonGame::board = newBoard;
+}
