@@ -171,7 +171,7 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
     refreshButton->connect("pressed", std::bind(&LobbySelectScreen::init, this));
     gui.add(refreshButton);
 
-    leaveLobbyButton->setPosition(tgui::bindLeft(refreshButton) - tgui::bindWidth(refreshButton) - 20,
+    leaveLobbyButton->setPosition(tgui::bindLeft(refreshButton) - tgui::bindWidth(leaveLobbyButton) - 20,
                                   tgui::bindTop(refreshButton));
     leaveLobbyButton->connect("pressed", std::bind(&LobbySelectScreen::leaveLobby, this));
     leaveLobbyButton->setEnabled(false);
