@@ -35,7 +35,7 @@ void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobb
 
     lobbyListBox->removeAllItems();
     for (const auto &lobby:availableLobbies.lobbies) {
-        sf::String lobbyText = lobby.name;
+        std::string lobbyText = lobby.name;
         if (lobby.player1.has_value()) {
             lobbyText += " (" + lobby.player1->name;
             if (lobby.player2.has_value()) {
@@ -65,7 +65,7 @@ void LobbySelectScreen::joinLobby() {
     leaveLobby();
     JoinLobby j;
     j.userId = self.id;
-    j.userName = "HansWurst";
+    j.userName = self.name;
     j.lobbyId = lobbyListBox->getSelectedItemId();
 
     serverConnection.send(j);
@@ -117,7 +117,10 @@ void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
 
     playButton->setEnabled(currentLobby->player1.has_value() and currentLobby->player2.has_value() and
                            currentLobby->player1->id == self.id);
+}
 
+void LobbySelectScreen::updateSelfUserName() {
+    self.name = userNameEditBox->getText();
 }
 
 LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player &self, sf::RenderTarget &window) :
@@ -136,7 +139,8 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
         playerCaptionLabel{tgui::Label::create("Players:")},
         playerOneLabel{tgui::Label::create("PlayerOne")},
         playerTwoLabel{tgui::Label::create("PlayerTwo")},
-        playButton{tgui::Button::create("PLAY")} {
+        playButton{tgui::Button::create("PLAY")},
+        userNameEditBox{tgui::EditBox::create()} {
     serverConnection.availableLobbiesListener.subscribe(
             std::bind(&LobbySelectScreen::onAvailableLobbies, this, std::placeholders::_1));
     serverConnection.lobbyJoinedListener.subscribe(
@@ -211,4 +215,10 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
     playButton->setSize(100, 100);
     playButton->setEnabled(false);
     gui.add(playButton);
+
+    userNameEditBox->setPosition(tgui::bindLeft(lobbyCaptionLabel),
+                                 tgui::bindTop(lobbyCaptionLabel) - tgui::bindHeight(userNameEditBox) - 20);
+    userNameEditBox->setDefaultText("User Name");
+    userNameEditBox->connect("TextChanged", std::bind(&LobbySelectScreen::updateSelfUserName, this));
+    gui.add(userNameEditBox);
 }

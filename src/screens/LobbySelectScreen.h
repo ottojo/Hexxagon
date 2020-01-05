@@ -55,6 +55,8 @@ private:
 
     tgui::Button::Ptr playButton;
 
+    tgui::EditBox::Ptr userNameEditBox;
+
     ProgramState nextState = ProgramState::LOBBY_SELECT;
 
     void onAvailableLobbies(const AvailableLobbies &availableLobbies);
@@ -70,6 +72,8 @@ private:
     void leaveLobby();
 
     void startGame();
+
+    void updateSelfUserName();
 };
 
 
