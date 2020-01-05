@@ -4,6 +4,7 @@
 
 #include <messages/server/GameStatus.h>
 #include <util/OptionalSerialization.h>
+#include <util/TileEnumUtil.h>
 
 void from_json(const nlohmann::json &j, GameStatus &l) {
     j.at("messageType").get_to(l.messageType);
@@ -22,10 +23,10 @@ void from_json(const nlohmann::json &j, GameStatus &l) {
     j.at("board").get_to(l.board);
     j.at("turn").get_to(l.turn);
     if (j.find("lastMoveFrom") != j.end()) {
-        j.at("lastMoveFrom").get_to(l.lastMoveFrom);
+        l.lastMoveFrom = util::TileEnumUtil::enumToInt(j.at("lastMoveFrom").get<std::string>());
     }
     if (j.find("lastMoveTo") != j.end()) {
-        j.at("lastMoveTo").get_to(l.lastMoveTo);
+        l.lastMoveTo = util::TileEnumUtil::enumToInt(j.at("lastMoveTo").get<std::string>());
     }
     // j.at("creationDate").get_to(l.creationDate);
     // j.at("activeDate").get_to(l.activeDate);

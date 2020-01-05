@@ -9,7 +9,6 @@
 #include "messages/Message.h"
 #include <util/UUID.h>
 #include <model/Board.h>
-#include <model/TileEnum.h>
 #include <chrono>
 
 class GameStatus : public Message {
@@ -28,8 +27,8 @@ public:
     int playerTwoPoints;
     Board board;
     int turn;
-    std::optional<TileEnum> lastMoveFrom;
-    std::optional<TileEnum> lastMoveTo;
+    std::optional<int> lastMoveFrom;
+    std::optional<int> lastMoveTo;
     std::chrono::time_point<std::chrono::system_clock> creationDate;
     std::chrono::time_point<std::chrono::system_clock> activeDate;
     UUID activePlayer;
