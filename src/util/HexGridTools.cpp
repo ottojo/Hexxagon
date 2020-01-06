@@ -58,6 +58,22 @@ std::optional<int> HexGridTools::indexFromAxial(AxialCoordinate coordinate) {
     }
 }
 
+std::vector<AxialCoordinate> HexGridTools::neighbours(AxialCoordinate coordinate) {
+    std::vector<AxialCoordinate> neighbors(6);
+    for (auto direction:axialDirections) {
+        neighbors.emplace_back(coordinate + direction);
+    }
+    return neighbors;
+}
+
+const std::array<AxialCoordinate, 6> HexGridTools::axialDirections = {
+        AxialCoordinate{1, 0},
+        AxialCoordinate{1, -1},
+        AxialCoordinate{0, -1},
+        AxialCoordinate{-1, 0},
+        AxialCoordinate{-1, 1},
+        AxialCoordinate{0, 1}};
+
 const std::unordered_map<AxialCoordinate, int> HexGridTools::axialIntMap = {
         {{-4, 0},  1},
         {{-4, 1},  2},

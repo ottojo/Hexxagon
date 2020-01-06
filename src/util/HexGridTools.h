@@ -42,9 +42,12 @@ public:
 
     static std::optional<int> indexFromAxial(AxialCoordinate coordinate);
 
+    static std::vector<AxialCoordinate> neighbours(AxialCoordinate coordinate);
+
 private:
     const static CartCoordinate q_base;
     const static CartCoordinate r_base;
+    const static std::array<AxialCoordinate, 6> axialDirections;
 
     /**
      * Mapping from SoPra-Standard-Index to axial coordinate

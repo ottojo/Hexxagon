@@ -70,6 +70,30 @@ void GameView::render(sf::RenderTarget &window) const {
             }
             if (showNeighbours) {
 
+                // TODO fix this
+
+                std::vector<AxialCoordinate> neighbours = HexGridTools::neighbours(
+                        HexGridTools::axialFromIndex(selectedTile.value()).value());
+
+                std::cout << "Found " << neighbours.size() << " neighbours" << std::endl;
+
+                std::vector<int> neighbourIndices;
+                std::for_each(neighbours.begin(), neighbours.end(), [&](AxialCoordinate c) {
+                    auto i = HexGridTools::indexFromAxial(c);
+                    if (i.has_value()) {
+                        neighbourIndices.emplace_back(i.value());
+                    }
+                });
+
+                std::cout << neighbourIndices.size() << " have an index" << std::endl;
+
+                if (std::find(neighbourIndices.begin(), neighbourIndices.end(), index) != neighbourIndices.end()) {
+                    if (tile.getState() == TileState::FREE) {
+                        std::cout << "Is free, coloring green" << std::endl;
+                        outlineColor = sf::Color::Green;
+                    }
+                }
+
             }
         }
 
@@ -83,7 +107,7 @@ void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, s
     hex.setOrigin(radius, radius);
     hex.setRotation(30);
     hex.setPosition(centerX, centerY);
-    hex.setOutlineThickness(2);
+    hex.setOutlineThickness(-5);
     hex.setOutlineColor(outlineColor);
     hex.setFillColor(fillColor);
     window.draw(hex, boardTransform);

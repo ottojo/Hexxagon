@@ -44,7 +44,7 @@ private:
 
     float radius = 50;
 
-    bool showNeighbours = false;
+    bool showNeighbours = true;
 
     std::optional<int> selectedTile;
 };
