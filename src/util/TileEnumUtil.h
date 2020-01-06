@@ -11,6 +11,8 @@ namespace util {
     class TileEnumUtil {
     public:
         static int enumToInt(std::string s);
+
+        static std::string intToEnum(int i);
     };
 }
 
