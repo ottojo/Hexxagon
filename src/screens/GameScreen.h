@@ -19,7 +19,7 @@ public:
 
     ProgramState render(sf::RenderTarget &window) override;
 
-    GameScreen(ServerConnection &connection);
+    GameScreen(ServerConnection &connection, Player &self);
 
     void init() override;
 
@@ -28,7 +28,20 @@ private:
 
     ServerConnection &serverConnection;
 
+    Player &self;
+
     GameView view;
+
+    UUID gameId;
+
+    enum class State {
+        WAITING,
+        PLAYING,
+    };
+
+    State currentState = State::WAITING;
+
+    std::optional<int> firstSelection;
 
     void updateGameStatus(GameStatus gameStatus);
 };

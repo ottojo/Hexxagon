@@ -62,19 +62,29 @@ void GameView::render(sf::RenderTarget &window) const {
                 break;
         }
 
-        drawHex(window, x, y, boardTransform, tileColor);
+        sf::Color outlineColor = sf::Color::Transparent;
+        if (selectedTile.has_value()) {
+            if (index == selectedTile.value()) {
+                outlineColor = sf::Color::Yellow;
+            }
+            if (showNeighbours) {
+
+            }
+        }
+
+        drawHex(window, x, y, boardTransform, tileColor, outlineColor);
     }
 }
 
 void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform,
-                       sf::Color color) const {
+                       sf::Color fillColor, sf::Color outlineColor) const {
     sf::CircleShape hex(radius, 6);
     hex.setOrigin(radius, radius);
     hex.setRotation(30);
     hex.setPosition(centerX, centerY);
-    hex.setOutlineThickness(1);
-    hex.setOutlineColor(sf::Color::Green);
-    hex.setFillColor(color);
+    hex.setOutlineThickness(2);
+    hex.setOutlineColor(outlineColor);
+    hex.setFillColor(fillColor);
     window.draw(hex, boardTransform);
 }
 
@@ -103,4 +113,20 @@ const Board &GameView::getBoard() const {
 
 void GameView::setBoard(const Board &setBoard) {
     GameView::board = setBoard;
+}
+
+bool GameView::isShowNeighbours() const {
+    return showNeighbours;
+}
+
+void GameView::setShowNeighbours(bool newShowNeighbours) {
+    GameView::showNeighbours = newShowNeighbours;
+}
+
+void GameView::select(int tileIndex) {
+    selectedTile.emplace(tileIndex);
+}
+
+void GameView::deselect() {
+    selectedTile.reset();
 }

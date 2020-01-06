@@ -25,15 +25,27 @@ public:
 
     void setBoard(const Board &setBoard);
 
+    void select(int tileIndex);
+
+    void deselect();
+
+    bool isShowNeighbours() const;
+
+    void setShowNeighbours(bool newShowNeighbours);
+
 private:
     Board board;
 
     void drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform,
-                 sf::Color color) const;
+                 sf::Color fillColor, sf::Color outlineColor) const;
 
     sf::Vector2f boardScaling;
 
     float radius = 50;
+
+    bool showNeighbours;
+
+    std::optional<int> selectedTile;
 };
 
 

@@ -20,5 +20,9 @@ public:
     std::chrono::time_point<std::chrono::system_clock> creationDate;
 };
 
+void to_json(nlohmann::json &j, const GameStarted &l);
+
+void from_json(const nlohmann::json &j, GameStarted &l);
+
 
 #endif //HEXXAGON_GAMESTARTED_H
