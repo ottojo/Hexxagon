@@ -11,7 +11,6 @@
 
 #include <network/ServerConnection.h>
 #include "view/GameView.h"
-#include "model/HexxagonGame.h"
 
 class GameScreen : public Screen {
 public:
@@ -24,7 +23,6 @@ public:
     void init() override;
 
 private:
-    HexxagonGame game;
 
     ServerConnection &serverConnection;
 
@@ -43,7 +41,11 @@ private:
 
     std::optional<int> firstSelection;
 
-    void updateGameStatus(GameStatus gameStatus);
+    std::optional<GameStatus> lastGameStatus;
+
+    void updateGameStatus(const GameStatus& gameStatus);
+
+    bool isOwnTile(int tileIndex);
 };
 
 

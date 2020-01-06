@@ -2,7 +2,8 @@
  * @file GameView.cpp
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * GameView holds a Board and can draw it to a sf::RenderTarget
+ * It also allows highlighting of one Tile and optionally it's free neighbours
  */
 
 #include <iostream>
@@ -88,16 +89,12 @@ void GameView::drawHex(sf::RenderTarget &window, float centerX, float centerY, s
     window.draw(hex, boardTransform);
 }
 
-GameView::GameView(const Board &board) :
-        board(board),
-        boardScaling(1, 1) {}
-
 AxialCoordinate GameView::getCurrentCoordinate(sf::RenderTarget &window, sf::Vector2f location) const {
 
     auto windowSize = window.getSize();
 
     sf::Transform hexToBoard;
-    hexToBoard.translate(0.5 * windowSize.x, 0.5 * windowSize.y);
+    hexToBoard.translate(0.5f * windowSize.x, 0.5f * windowSize.y);
     hexToBoard.scale(boardScaling);
 
     auto boardToHex = hexToBoard.getInverse();

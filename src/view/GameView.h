@@ -2,7 +2,8 @@
  * @file GameView.h
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * GameView holds a Board and can draw it to a sf::RenderTarget
+ * It also allows highlighting of one Tile and optionally it's free neighbours
  */
 
 #ifndef HEXXAGON_GAMEVIEW_H
@@ -13,15 +14,15 @@
 #include "model/Board.h"
 #include "util/HexGridTools.h"
 
+// TODO: extend drawable, transformable
+
 class GameView {
 public:
     void render(sf::RenderTarget &window) const;
 
-    explicit GameView(const Board &board);
-
     AxialCoordinate getCurrentCoordinate(sf::RenderTarget &window, sf::Vector2f location) const;
 
-    const Board &getBoard() const;
+    [[nodiscard]] const Board &getBoard() const;
 
     void setBoard(const Board &setBoard);
 
@@ -29,7 +30,7 @@ public:
 
     void deselect();
 
-    bool isShowNeighbours() const;
+    [[nodiscard]] bool isShowNeighbours() const;
 
     void setShowNeighbours(bool newShowNeighbours);
 
@@ -39,11 +40,11 @@ private:
     void drawHex(sf::RenderTarget &window, float centerX, float centerY, sf::Transform boardTransform,
                  sf::Color fillColor, sf::Color outlineColor) const;
 
-    sf::Vector2f boardScaling;
+    sf::Vector2f boardScaling = {1, 1};
 
     float radius = 50;
 
-    bool showNeighbours;
+    bool showNeighbours = false;
 
     std::optional<int> selectedTile;
 };

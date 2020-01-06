@@ -2,12 +2,11 @@
  * @file Board.h
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * Board holds all Tiles of a game including index and state
  */
 
 #ifndef HEXXAGON_BOARD_H
 #define HEXXAGON_BOARD_H
-
 
 #include <map>
 #include <nlohmann/json.hpp>
@@ -20,9 +19,6 @@ public:
     std::vector<int> getNeighbors(int tile);
 
     [[nodiscard]] const std::map<int, Tile> &getTiles() const;
-
-    // TODO (or not, not relevant for the client)
-    // friend void to_json(nlohmann::json &j, const Board &b);
 
     friend void from_json(const nlohmann::json &j, Board &b);
 

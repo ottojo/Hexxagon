@@ -10,6 +10,24 @@
 #include <sstream>
 #include <messages/client/GameMove.h>
 
+bool GameScreen::isOwnTile(int tileIndex) {
+    if (lastGameStatus.has_value()) {
+        // Determine if we are PLAYERONE or PLAYERTWO
+        // TODO determine PLAYERONE or PLAYERTWO not on every click, but once (or on game status update)
+        TileState role;
+        if (self.id == lastGameStatus.value().playerOne) {
+            role = TileState::PLAYERONE;
+        } else {
+            role = TileState::PLAYERTWO;
+        }
+
+        if (view.getBoard().getTiles().at(tileIndex).getState() == role) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     if (event.type == sf::Event::MouseButtonPressed) {
         auto start = std::chrono::system_clock::now();
@@ -26,18 +44,22 @@ bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
             if (currentState == State::PLAYING) {
                 if (!firstSelection.has_value()) {
                     // Select first Tile
-                    firstSelection.emplace(tileIndex.value());
-                    view.select(tileIndex.value());
+                    if (isOwnTile(tileIndex.value())) {
+                        firstSelection.emplace(tileIndex.value());
+                        view.select(tileIndex.value());
+                    }
                 } else {
-                    // Select second Tile, send move
-                    GameMove g;
-                    g.userId = self.id;
-                    g.gameId = gameId;
-                    g.moveFrom = firstSelection.value();
-                    g.moveTo = tileIndex.value();
-                    serverConnection.send(g);
-                    firstSelection.reset();
-                    view.deselect();
+                    if (view.getBoard().getTiles().at(tileIndex.value()).getState() == TileState::FREE) {
+                        // Select second Tile, send move
+                        GameMove g;
+                        g.userId = self.id;
+                        g.gameId = gameId;
+                        g.moveFrom = firstSelection.value();
+                        g.moveTo = tileIndex.value();
+                        serverConnection.send(g);
+                        firstSelection.reset();
+                        view.deselect();
+                    }
                 }
             }
             return true;
@@ -46,10 +68,10 @@ bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     return false;
 }
 
-void GameScreen::updateGameStatus(GameStatus gameStatus) {
+void GameScreen::updateGameStatus(const GameStatus &gameStatus) {
     std::cout << "Received GameStatus" << std::endl;
-    game.setBoard(gameStatus.board);
-    view.setBoard(game.getBoard());
+    lastGameStatus.emplace(gameStatus);
+    view.setBoard(lastGameStatus.value().board);
     if (gameStatus.activePlayer == self.id) {
         currentState = State::PLAYING;
         std::cout << "Active Player" << std::endl;
@@ -64,10 +86,8 @@ ProgramState GameScreen::render(sf::RenderTarget &window) {
 }
 
 GameScreen::GameScreen(ServerConnection &connection, Player &self) :
-        game(),
         serverConnection{connection},
-        self{self},
-        view(game.getBoard()) {
+        self{self} {
     serverConnection.gameStatusListener.subscribe(
             std::bind(&GameScreen::updateGameStatus, this, std::placeholders::_1));
     serverConnection.gameStartedListener.subscribe([&](const GameStarted &gameStarted) {
