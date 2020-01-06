@@ -74,6 +74,8 @@ private:
     void startGame();
 
     void updateSelfUserName();
+
+    std::mutex lobbyListLock;
 };
 
 

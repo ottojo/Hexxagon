@@ -11,7 +11,9 @@
 #include <messages/client/StartGame.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
+    lobbyListLock.lock();
     gui.draw();
+    lobbyListLock.unlock();
 
     return nextState;
 }
@@ -33,6 +35,7 @@ void LobbySelectScreen::init() {
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
 
+    lobbyListLock.lock();
     lobbyListBox->removeAllItems();
     for (const auto &lobby:availableLobbies.lobbies) {
         std::string lobbyText = lobby.name;
@@ -51,6 +54,7 @@ void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobb
             currentLobby = lobby;
         }
     }
+    lobbyListLock.unlock();
 }
 
 void LobbySelectScreen::newLobby() {
