@@ -164,6 +164,8 @@ LobbySelectScreen::LobbySelectScreen(ServerConnection &serverConnection, Player 
     lobbyNameEditBox->setDefaultText("New Lobby Name");
     lobbyNameEditBox->setPosition(tgui::bindLeft(lobbyListBox),
                                   tgui::bindBottom(lobbyListBox) + 20);
+    lobbyNameEditBox->onReturnKeyPress.connect(
+            static_cast<tgui::Signal::Delegate >(std::bind(&LobbySelectScreen::newLobby, this)));
     gui.add(lobbyNameEditBox);
 
     createLobbyButton->setPosition(tgui::bindRight(lobbyNameEditBox) + 20, tgui::bindTop(lobbyNameEditBox));
