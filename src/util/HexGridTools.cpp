@@ -66,6 +66,14 @@ std::vector<AxialCoordinate> HexGridTools::neighbours(AxialCoordinate coordinate
     return neighbors;
 }
 
+std::vector<AxialCoordinate> HexGridTools::indirectNeighbours(AxialCoordinate coordinate) {
+    std::vector<AxialCoordinate> neighbors(12);
+    for (auto direction:indirectAxialDirections) {
+        neighbors.emplace_back(coordinate + direction);
+    }
+    return neighbors;
+}
+
 const std::array<AxialCoordinate, 6> HexGridTools::axialDirections = {
         AxialCoordinate{1, 0},
         AxialCoordinate{1, -1},
@@ -73,6 +81,20 @@ const std::array<AxialCoordinate, 6> HexGridTools::axialDirections = {
         AxialCoordinate{-1, 0},
         AxialCoordinate{-1, 1},
         AxialCoordinate{0, 1}};
+
+const std::array<AxialCoordinate, 12> HexGridTools::indirectAxialDirections = {
+        AxialCoordinate{0, -2},
+        AxialCoordinate{1, -2},
+        AxialCoordinate{2, -2},
+        AxialCoordinate{2, -1},
+        AxialCoordinate{2, 0},
+        AxialCoordinate{1, 1},
+        AxialCoordinate{0, 2},
+        AxialCoordinate{-1, 2},
+        AxialCoordinate{-2, 2},
+        AxialCoordinate{-2, 1},
+        AxialCoordinate{-2, 0},
+        AxialCoordinate{-1, -1}};
 
 const std::unordered_map<AxialCoordinate, int> HexGridTools::axialIntMap = {
         {{-4, 0},  1},
@@ -201,3 +223,5 @@ const std::unordered_map<int, AxialCoordinate> HexGridTools::intAxialMap = {
         {60, {4,  -1}},
         {61, {4,  0}},
 };
+
+

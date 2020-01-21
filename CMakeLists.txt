@@ -48,7 +48,8 @@ set(LIBS
         sfml-window
         sfml-graphics
         nlohmann_json::nlohmann_json
-        gcov)
+        gcov
+        pthread)
 
 if (USE_LOCAL_NETWORK)
     include_directories(../WebsocketCPP/src)

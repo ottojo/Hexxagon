@@ -40,16 +40,26 @@ void GameView::render(sf::RenderTarget &window) const {
     }
 
     std::vector<int> neighbourIndices;
+    std::vector<int> indirectNeighbourIndices;
 
     if (selectedTile.has_value()) {
-        std::vector<AxialCoordinate> neighbours;
-        neighbours = HexGridTools::neighbours(HexGridTools::axialFromIndex(selectedTile.value()).value());
-        std::for_each(neighbours.begin(), neighbours.end(), [&](AxialCoordinate c) {
+        auto clickAxial = HexGridTools::axialFromIndex(selectedTile.value()).value();
+        auto neighbours = HexGridTools::neighbours(clickAxial);
+        for (auto c : neighbours) {
             auto i = HexGridTools::indexFromAxial(c);
             if (i.has_value() and board.getTiles().at(i.value()).getState() == TileState::FREE) {
                 neighbourIndices.emplace_back(i.value());
             }
-        });
+        }
+
+        auto indirectNeighbours = HexGridTools::indirectNeighbours(clickAxial);
+        for (auto c : indirectNeighbours) {
+            auto i = HexGridTools::indexFromAxial(c);
+            if (i.has_value() and board.getTiles().at(i.value()).getState() == TileState::FREE) {
+                indirectNeighbourIndices.emplace_back(i.value());
+            }
+        }
+
     }
 
     for (const auto &[index, tile]: board.getTiles()) {

@@ -44,10 +44,13 @@ public:
 
     static std::vector<AxialCoordinate> neighbours(AxialCoordinate coordinate);
 
+    static std::vector<AxialCoordinate> indirectNeighbours(AxialCoordinate coordinate);
+
 private:
     const static CartCoordinate q_base;
     const static CartCoordinate r_base;
     const static std::array<AxialCoordinate, 6> axialDirections;
+    const static std::array<AxialCoordinate, 12> indirectAxialDirections;
 
     /**
      * Mapping from SoPra-Standard-Index to axial coordinate
