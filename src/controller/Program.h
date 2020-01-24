@@ -43,6 +43,12 @@ private:
             if (event.type == sf::Event::Resized) {
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 window.setView(sf::View(visibleArea));
+
+                // Resize event should be handled by all screens, to allow for tgui rescaling before screen is active
+                menuScreen.handleInput(event, window);
+                lobbySelectScreen.handleInput(event, window);
+                gameScreen.handleInput(event, window);
+                gameEndScreen.handleInput(event, window);
             }
             screen.handleInput(event, window);
         }
