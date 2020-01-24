@@ -11,7 +11,8 @@ Program::Program(sf::RenderWindow &window) :
         window{window},
         menuScreen(serverConnection, self),
         lobbySelectScreen(serverConnection, self, window),
-        gameScreen(serverConnection, self) {
+        gameScreen(serverConnection, self),
+        gameEndScreen(serverConnection, self) {
     util::FontUtil::init("arial.ttf");
 }
 

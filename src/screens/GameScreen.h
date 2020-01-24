@@ -28,6 +28,7 @@ private:
 
     Player &self;
 
+    std::mutex gameViewMutex;
     GameView view;
 
     UUID gameId;

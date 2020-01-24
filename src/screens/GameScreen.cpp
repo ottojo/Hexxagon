@@ -30,6 +30,7 @@ bool GameScreen::isOwnTile(int tileIndex) {
 
 bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     if (event.type == sf::Event::MouseButtonPressed) {
+        const std::lock_guard<std::mutex> lock(gameViewMutex);
         auto start = std::chrono::system_clock::now();
         auto click = window.mapPixelToCoords({event.mouseButton.x, event.mouseButton.y});
         auto axialTileCoordinate = view.getCurrentCoordinate(window, click);
@@ -71,6 +72,7 @@ bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
 void GameScreen::updateGameStatus(const GameStatus &gameStatus) {
     std::cout << "Received GameStatus" << std::endl;
     lastGameStatus.emplace(gameStatus);
+    const std::lock_guard<std::mutex> lock(gameViewMutex);
     view.setBoard(lastGameStatus.value().board);
     if (gameStatus.activePlayer == self.id) {
         currentState = State::PLAYING;
@@ -81,8 +83,13 @@ void GameScreen::updateGameStatus(const GameStatus &gameStatus) {
 }
 
 ProgramState GameScreen::render(sf::RenderTarget &window) {
+    const std::lock_guard<std::mutex> lock(gameViewMutex);
     view.render(window);
-    return ProgramState::IN_GAME;
+    if (lastGameStatus->isClosed) {
+        return ProgramState::GAME_END;
+    } else {
+        return ProgramState::IN_GAME;
+    }
 }
 
 GameScreen::GameScreen(ServerConnection &connection, Player &self) :
