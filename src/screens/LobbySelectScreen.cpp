@@ -30,6 +30,7 @@ void LobbySelectScreen::init() {
     GetAvailableLobbies g;
     g.userId = self.id;
     serverConnection.send(g);
+    nextState = ProgramState::LOBBY_SELECT;
 }
 
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {

@@ -25,7 +25,7 @@ bool GameEndScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
 }
 
 void GameEndScreen::init() {
-
+    nextState = ProgramState::GAME_END;
 }
 
 void GameEndScreen::onGameStatus(const GameStatus &gameStatus) {

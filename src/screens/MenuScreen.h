@@ -36,15 +36,6 @@ private:
 
     ProgramState nextState = ProgramState::MAIN_MENU;
 
-    enum class SelectionState {
-        LOBBY,
-        SERVER_EDIT,
-        CONNECT,
-        EXIT
-    };
-
-    SelectionState selectionState = SelectionState::LOBBY;
-
 };
 
 

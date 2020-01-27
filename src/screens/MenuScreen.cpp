@@ -74,5 +74,5 @@ void MenuScreen::handleWelcome(Welcome welcomeMessage) {
 }
 
 void MenuScreen::init() {
-
+    nextState = ProgramState::MAIN_MENU;
 }

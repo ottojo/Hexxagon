@@ -112,5 +112,5 @@ GameScreen::GameScreen(ServerConnection &connection, Player &self) :
 }
 
 void GameScreen::init() {
-
+    lastGameStatus.reset();
 }
