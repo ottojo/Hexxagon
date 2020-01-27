@@ -10,10 +10,17 @@ ProgramState GameEndScreen::render(sf::RenderTarget &window) {
     const std::lock_guard<std::mutex> lock(winnerLabelMutex);
     winnerLabel.setPosition(0.5f * window.getSize().x, 0.5f * window.getSize().y);
     window.draw(winnerLabel);
-    return ProgramState::GAME_END;
+    returnToMainMenuButton->setPosition(0.5f * window.getSize().x - 0.5 * returnToMainMenuButton->getSize().x,
+                                        winnerLabel.getPosition().y + winnerLabel.getLocalBounds().getSize().y + 20);
+    gui.draw();
+    return nextState;
 }
 
 bool GameEndScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
+    if (event.type == sf::Event::Resized) {
+        gui.setView(window.getView());
+    }
+    gui.handleEvent(event);
     return false;
 }
 
@@ -48,11 +55,19 @@ void GameEndScreen::onGameStatus(const GameStatus &gameStatus) {
     util::GraphicsUtil::setOriginToCenter(winnerLabel);
 }
 
-GameEndScreen::GameEndScreen(ServerConnection &connection, Player &self) :
+GameEndScreen::GameEndScreen(ServerConnection &connection, Player &self, sf::RenderTarget &window) :
         serverConnection{connection},
         self{self},
-        winnerLabel{"", util::FontUtil::getDefaultFont()} {
+        winnerLabel{"", util::FontUtil::getDefaultFont()},
+        gui{window},
+        returnToMainMenuButton{tgui::Button::create("Return to menu")} {
     connection.gameStatusListener.subscribe(std::bind(&GameEndScreen::onGameStatus, this, std::placeholders::_1));
     winnerLabel.setCharacterSize(100);
     winnerLabel.setFillColor(sf::Color::White);
+
+    returnToMainMenuButton->setPosition("(parent.size - size) / 2");
+    returnToMainMenuButton->onClick.connect([&]() {
+        nextState = ProgramState::MAIN_MENU;
+    });
+    gui.add(returnToMainMenuButton);
 }

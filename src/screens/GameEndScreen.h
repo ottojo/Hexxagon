@@ -8,11 +8,13 @@
 
 #include <screens/Screen.h>
 #include <network/ServerConnection.h>
+#include <TGUI/Gui.hpp>
+#include <TGUI/Widgets/Button.hpp>
 
 class GameEndScreen : public Screen {
 public:
 
-    GameEndScreen(ServerConnection &connection, Player &self);
+    GameEndScreen(ServerConnection &connection, Player &self, sf::RenderTarget &window);
 
     ProgramState render(sf::RenderTarget &window) override;
 
@@ -25,8 +27,14 @@ private:
 
     Player &self;
 
+    ProgramState nextState = ProgramState::GAME_END;
+
     std::mutex winnerLabelMutex;
     sf::Text winnerLabel;
+
+    tgui::Gui gui;
+
+    tgui::Button::Ptr returnToMainMenuButton;
 
     void onGameStatus(const GameStatus &gameStatus);
 };
