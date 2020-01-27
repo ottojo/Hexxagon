@@ -94,8 +94,10 @@ void GameView::render(sf::RenderTarget &window) const {
             if (showNeighbours) {
                 if (std::find(neighbourIndices.begin(), neighbourIndices.end(), index) != neighbourIndices.end()) {
                     outlineColor = sf::Color::Green;
+                } else if (std::find(indirectNeighbourIndices.begin(), indirectNeighbourIndices.end(), index) !=
+                           indirectNeighbourIndices.end()) {
+                    outlineColor = sf::Color::Yellow;
                 }
-
             }
         }
 
