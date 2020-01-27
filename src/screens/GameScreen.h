@@ -44,6 +44,9 @@ private:
 
     std::optional<GameStatus> lastGameStatus;
 
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundSprite;
+
     void updateGameStatus(const GameStatus& gameStatus);
 
     bool isOwnTile(int tileIndex);

@@ -83,6 +83,9 @@ void GameScreen::updateGameStatus(const GameStatus &gameStatus) {
 }
 
 ProgramState GameScreen::render(sf::RenderTarget &window) {
+   // TODO: scale background
+    window.draw(backgroundSprite);
+
     const std::lock_guard<std::mutex> lock(gameViewMutex);
     view.render(window);
     if (lastGameStatus->isClosed) {
@@ -100,6 +103,12 @@ GameScreen::GameScreen(ServerConnection &connection, Player &self) :
     serverConnection.gameStartedListener.subscribe([&](const GameStarted &gameStarted) {
         gameId = gameStarted.gameId;
     });
+    if (not backgroundTexture.loadFromFile("assets/space.jpg")) {
+        std::cerr << "Could not load background texture. (\"assets/space.jpg\")" << std::endl;
+        std::exit(1);
+    }
+    backgroundTexture.setSmooth(true);
+    backgroundSprite.setTexture(backgroundTexture);
 }
 
 void GameScreen::init() {
