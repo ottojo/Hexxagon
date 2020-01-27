@@ -27,6 +27,7 @@ bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &) {
 }
 
 void LobbySelectScreen::init() {
+    currentLobby.reset();
     GetAvailableLobbies g;
     g.userId = self.id;
     serverConnection.send(g);
