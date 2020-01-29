@@ -16,8 +16,6 @@ class Board {
 public:
     Board();
 
-    std::vector<int> getNeighbors(int tile);
-
     [[nodiscard]] const std::map<int, Tile> &getTiles() const;
 
     friend void from_json(const nlohmann::json &j, Board &b);

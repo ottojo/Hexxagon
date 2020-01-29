@@ -15,8 +15,6 @@ void to_json(nlohmann::json &j, const Lobby &l) {
         j["playerTwo"] = l.player2->id;
         j["playerTwoUserName"] = l.player2->name;
     }
-    // TODO chrono bums
-    //j["creationDate"] = l.creationTime;
     j["isClosed"] = l.isClosed;
 
 }
@@ -31,7 +29,5 @@ void from_json(const nlohmann::json &j, Lobby &l) {
         l.player2.emplace(j.at("playerTwoUserName"), j.at("playerTwo"));
 
     }
-    // TODO chrono bums
-    //j.at("creationDate") .get_to( l.creationTime);
     j.at("isClosed").get_to(l.isClosed);
 }

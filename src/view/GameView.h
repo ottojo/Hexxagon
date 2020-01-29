@@ -14,7 +14,7 @@
 #include "model/Board.h"
 #include "util/HexGridTools.h"
 
-// TODO: extend drawable, transformable
+// TODO: extend drawable, transformable to better integrate with SFML
 
 class GameView {
 public:

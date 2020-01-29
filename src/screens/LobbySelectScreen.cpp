@@ -11,9 +11,9 @@
 #include <messages/client/StartGame.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
-    lobbyListLock.lock();
+    std::lock_guard<std::mutex> lock(lobbyListLock);
+
     gui.draw();
-    lobbyListLock.unlock();
 
     return nextState;
 }
@@ -37,7 +37,7 @@ void LobbySelectScreen::init() {
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
 
-    lobbyListLock.lock();
+    std::lock_guard<std::mutex> listLock(lobbyListLock);
     lobbyListBox->removeAllItems();
     for (const auto &lobby:availableLobbies.lobbies) {
         std::string lobbyText = lobby.name;
@@ -50,13 +50,11 @@ void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobb
         }
         lobbyListBox->addItem(lobbyText + " (" + lobby.id + ")", lobby.id);
 
-        // TODO do this again but think at the same time
         if (lobby.player1.value_or(Player()).id == self.id or lobby.player2.value_or(Player()).id == self.id or
             lobby.id == currentLobby.value_or(Lobby()).id) {
             currentLobby = lobby;
         }
     }
-    lobbyListLock.unlock();
 }
 
 void LobbySelectScreen::newLobby() {
@@ -96,8 +94,6 @@ void LobbySelectScreen::leaveLobby() {
         l.lobbyId = currentLobby->id;
         serverConnection.send(l);
         currentLobby.reset();
-        // TODO remove race condition (sending "leave" and "join" at the same time)
-        //  (Probably not relevant, can join multiple lobbies at the same time)
     }
 }
 

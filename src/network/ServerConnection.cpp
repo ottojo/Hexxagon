@@ -53,7 +53,6 @@ void ServerConnection::receive(std::string message) {
             break;
         default:
         case MessageType::INVALID:
-            // TODO error handling
             throw std::runtime_error("Invalid message received");
     }
 }

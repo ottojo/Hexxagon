@@ -2,26 +2,23 @@
  * @file Tile.h
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * A Tile is part of a Board, and holds it's state.
+ * A Tiles state is final, all Tiles get replaced by game update.
  */
 
 #ifndef HEXXAGON_TILE_H
 #define HEXXAGON_TILE_H
 
-#include <vector>
 #include "TileState.h"
-
 
 class Tile {
 public:
-    Tile(TileState state);
-    TileState getState() const;
+    explicit Tile(TileState state);
 
-    void setState(TileState state);
+    [[nodiscard]] TileState getState() const;
 
 private:
-    TileState state;
+    const TileState state;
 };
-
 
 #endif //HEXXAGON_TILE_H

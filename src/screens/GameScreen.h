@@ -2,7 +2,7 @@
  * @file GameScreen.h
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * This Screen shows the main game.
  */
 
 #ifndef HEXXAGON_GAMESCREEN_H

@@ -16,8 +16,6 @@ public:
 
     UUID userId;
     UUID gameId;
-    // TODO chrono...
-    std::chrono::time_point<std::chrono::system_clock> creationDate;
 };
 
 void to_json(nlohmann::json &j, const GameStarted &l);

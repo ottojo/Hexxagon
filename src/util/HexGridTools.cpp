@@ -2,7 +2,6 @@
  * @file HexGridTools.cpp
  * @author jonas
  * @date 12/18/19
- * Description here TODO
  */
 
 #include "util/HexGridTools.h"

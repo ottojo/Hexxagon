@@ -6,11 +6,6 @@ Board::Board() {
     }
 }
 
-std::vector<int> Board::getNeighbors(int tile) {
-    // TODO neighbor finding
-    return {tile + 1, tile - 1};
-}
-
 const std::map<int, Tile> &Board::getTiles() const {
     return tiles;
 }

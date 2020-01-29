@@ -2,7 +2,6 @@
  * @file GameScreen.cpp
  * @author jonas
  * @date 12/8/19
- * Description here TODO
  */
 
 #include "screens/GameScreen.h"

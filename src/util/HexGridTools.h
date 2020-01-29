@@ -2,7 +2,9 @@
  * @file HexGridTools.h
  * @author jonas
  * @date 12/18/19
- * Description here TODO
+ * This provides utility function to work with hexagonal grids in axial coordinates.
+ * Also provides mapping to and from cartesian coordinates and SoPra-indexing.
+ * Inspired by https://www.redblobgames.com/grids/hexagons/
  */
 
 #ifndef HEXXAGON_HEXGRIDTOOLS_H
@@ -17,12 +19,12 @@ using CartCoordinate = sf::Vector2f;
 
 using AxialCoordinate = sf::Vector2i;
 
-// TODO put this somewhere else
+// TODO do not put this in std namespace (maybe like this: https://stackoverflow.com/a/20458097/4162386)
 namespace std {
     template<>
     struct hash<AxialCoordinate> {
         std::size_t operator()(const AxialCoordinate &k) const {
-            return std::hash<int>()(k.x) ^ (std::hash<int>()(k.y) << 1);
+            return std::hash<int>()(k.x) ^ (std::hash<int>()(k.y) << 1u);
         }
     };
 }

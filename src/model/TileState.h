@@ -2,7 +2,7 @@
  * @file TileState.h
  * @author jonas
  * @date 12/8/19
- * Description here TODO
+ * Represents the State of a single Tile.
  */
 
 #ifndef HEXXAGON_TILESTATE_H
