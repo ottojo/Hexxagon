@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include <WebSocketClient.hpp>
+#include <SopraNetwork/WebSocketClient.hpp>
 #include <messages/Message.h>
 
 #include <messages/server/AvailableLobbies.h>

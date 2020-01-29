@@ -13,7 +13,7 @@ namespace util {
     public:
         const static sf::Font &getDefaultFont();
 
-        static void init(const std::string& font = "arial.ttf");
+        static void init(const std::string& font = "assets/arial.ttf");
 
     private:
         static sf::Font defaultFont;

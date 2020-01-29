@@ -67,8 +67,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # GTest
-file(GLOB_RECURSE TEST_SOURCES src/messages/*.cpp)
-set(TEST_SOURCES ${TEST_SOURCES}
+set(TEST_SOURCES
+        src/messages/Message.cpp
+        src/messages/server/Welcome.cpp
         test/json.cpp)
 
 set(TEST_LIBS gtest gmock pthread
@@ -85,6 +86,3 @@ if (GTest_FOUND)
             COMMAND unitTests
     )
 endif ()
-
-add_executable(networkTest networkTest.cpp src/util/FontUtil.cpp src/util/GraphicsUtil.cpp)
-target_link_libraries(networkTest ${LIBS})

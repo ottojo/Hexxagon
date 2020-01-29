@@ -13,7 +13,7 @@ Program::Program(sf::RenderWindow &window) :
         lobbySelectScreen(serverConnection, self, window),
         gameScreen(serverConnection, self),
         gameEndScreen(serverConnection, self, window) {
-    util::FontUtil::init("arial.ttf");
+    util::FontUtil::init();
 }
 
 
