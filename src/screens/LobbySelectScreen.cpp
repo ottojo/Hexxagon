@@ -28,6 +28,9 @@ bool LobbySelectScreen::handleInput(sf::Event event, sf::RenderTarget &) {
 
 void LobbySelectScreen::init() {
     currentLobby.reset();
+    lobbyNameLabel->setText("No Lobby joined");
+    playerOneLabel->setText("-");
+    playerTwoLabel->setText("-");
     GetAvailableLobbies g;
     g.userId = self.id;
     serverConnection.send(g);
