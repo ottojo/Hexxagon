@@ -70,7 +70,9 @@ target_link_libraries(${PROJECT_NAME} ${LIBS})
 set(TEST_SOURCES
         src/messages/Message.cpp
         src/messages/server/Welcome.cpp
-        test/json.cpp)
+        src/util/HexGridTools.cpp
+        test/json.cpp
+        test/hexGrid.cpp)
 
 set(TEST_LIBS gtest gmock pthread
         nlohmann_json::nlohmann_json
