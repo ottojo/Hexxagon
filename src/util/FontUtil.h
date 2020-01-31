@@ -7,16 +7,20 @@
 
 
 #include <SFML/Graphics/Font.hpp>
+#include <TGUI/Font.hpp>
 
 namespace util {
     class FontUtil {
     public:
         const static sf::Font &getDefaultFont();
 
-        static void init(const std::string& font = "assets/arial.ttf");
+        static const tgui::Font &getTguiFont();
+
+        static void init(const std::string& font = "assets/Bangers-Regular.ttf");
 
     private:
         static sf::Font defaultFont;
+        static tgui::Font tguiFont;
     };
 }
 
