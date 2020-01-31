@@ -2,7 +2,6 @@
  * @file hexGrid.cpp
  * @author jonas
  * @date 1/31/20
- * Description here TODO
  */
 
 #include <gtest/gtest.h>
