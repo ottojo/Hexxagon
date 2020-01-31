@@ -7,6 +7,7 @@
 
 
 #include <model/Player.h>
+#include <TGUI/TGUI.hpp>
 #include "Screen.h"
 #include "network/ServerConnection.h"
 
@@ -14,7 +15,7 @@ class MenuScreen : public Screen {
 
 public:
 
-    explicit MenuScreen(ServerConnection &ServerConnection, Player &self);
+    explicit MenuScreen(ServerConnection &ServerConnection, Player &self, sf::RenderTarget &window);
 
     bool handleInput(sf::Event event, sf::RenderTarget &window) override;
 
@@ -27,12 +28,15 @@ private:
 
     Player &self;
 
-    void handleWelcome(Welcome welcomeMessage);
+    void handleWelcome(const Welcome& welcomeMessage);
 
-    sf::Text lobbyText;
-    sf::Text serverNameText;
-    sf::Text connectText;
-    sf::Text exitText;
+    void connect();
+
+    tgui::Gui gui;
+    tgui::Label::Ptr titleLabel;
+    tgui::Button::Ptr connectButton;
+    tgui::Button::Ptr exitButton;
+    tgui::EditBox::Ptr serverEditBox;
 
     ProgramState nextState = ProgramState::MAIN_MENU;
 

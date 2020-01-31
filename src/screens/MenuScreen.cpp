@@ -8,71 +8,70 @@
 #include "screens/MenuScreen.h"
 
 ProgramState MenuScreen::render(sf::RenderTarget &window) {
-
-    auto[w, h] = window.getSize();
-    sf::Vector2f center = 0.5f * window.mapPixelToCoords({static_cast<int>(w), static_cast<int>(h)});
-
-    util::GraphicsUtil::setOriginToCenter(lobbyText);
-    lobbyText.setPosition(center + sf::Vector2f{0, -60});
-
-    util::GraphicsUtil::setOriginToCenter(serverNameText);
-    serverNameText.setPosition(center + sf::Vector2f{0, -20});
-
-    util::GraphicsUtil::setOriginToCenter(connectText);
-    connectText.setPosition(center + sf::Vector2f{0, 20});
-
-    util::GraphicsUtil::setOriginToCenter(exitText);
-    exitText.setPosition(center + sf::Vector2f{0, 60});
-
-
-    window.draw(lobbyText);
-    window.draw(serverNameText);
-    window.draw(connectText);
-    window.draw(exitText);
-
+    gui.draw();
     return nextState;
 }
 
 bool MenuScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        auto click = window.mapPixelToCoords(sf::Vector2i{event.mouseButton.x, event.mouseButton.y});
-        auto connectTextBounds = connectText.getGlobalBounds();
-        if (connectTextBounds.contains(click)) {
-            lobbyText.setFillColor(sf::Color::Red);
-            serverConnection.connect("hexxagon.otto.cool", 4444);
-            return true;
-        }
-
-        auto lobbyTextBounds = lobbyText.getGlobalBounds();
-        if (lobbyTextBounds.contains(click)) {
-            if (serverConnection.isConnected()) {
-                nextState = ProgramState::LOBBY_SELECT;
-            }
-        }
-
+    if (event.type == sf::Event::Resized) {
+        gui.setView(window.getView());
     }
+    gui.handleEvent(event);
     return false;
 }
 
-MenuScreen::MenuScreen(ServerConnection &ServerConnection, Player &self) :
+MenuScreen::MenuScreen(ServerConnection &ServerConnection, Player &self, sf::RenderTarget &window) :
         serverConnection{ServerConnection},
         self{self},
-        lobbyText("Find Lobby", util::FontUtil::getDefaultFont()),
-        serverNameText("hexxagon.otto.cool:4444", util::FontUtil::getDefaultFont()),
-        connectText("Connect", util::FontUtil::getDefaultFont()),
-        exitText("Exit Game", util::FontUtil::getDefaultFont()) {
+        gui{window},
+        titleLabel{tgui::Label::create("HEXXAGON")},
+        connectButton{tgui::Button::create("Connect")},
+        exitButton{tgui::Button::create("Exit")},
+        serverEditBox{tgui::EditBox::create()} {
     ServerConnection.welcomeListener.subscribe(
             std::bind(&MenuScreen::handleWelcome, this, std::placeholders::_1));
-    lobbyText.setFillColor(sf::Color::Red);
+
+    serverEditBox->setText("hexxagon.otto.cool:4444");
+    connectButton->onClick.connect(static_cast<tgui::Signal::Delegate >(std::bind(&MenuScreen::connect, this)));
+    exitButton->onClick.connect([] { std::exit(0); });
+
+
+    titleLabel->setTextSize(200);
+    titleLabel->getRenderer()->setTextColor(tgui::Color::White);
+    serverEditBox->setPosition(0.5 * (tgui::bindSize(gui).x - tgui::bindSize(serverEditBox).x),
+                               tgui::bindBottom(titleLabel) + 20);
+    connectButton->setPosition(0.5 * (tgui::bindSize(gui).x - tgui::bindSize(connectButton).x),
+                               tgui::bindBottom(serverEditBox) + 20);
+    exitButton->setPosition(0.5 * (tgui::bindSize(gui).x - tgui::bindSize(exitButton).x),
+                            tgui::bindBottom(connectButton) + 20);
+
+    gui.add(titleLabel);
+    gui.add(serverEditBox);
+    gui.add(connectButton);
+    gui.add(exitButton);
+
+    auto height = exitButton->getPosition().y - titleLabel->getPosition().y;
+    titleLabel->setPosition(0.5 * (tgui::bindSize(gui).x - tgui::bindSize(titleLabel).x),
+                            tgui::bindSize(gui).y * 0.5 - 0.5 * height);
 }
 
-void MenuScreen::handleWelcome(Welcome welcomeMessage) {
+void MenuScreen::handleWelcome(const Welcome &welcomeMessage) {
     std::cout << "Welcome message received in menu screen: " << welcomeMessage.welcomeMessage << " User: "
               << welcomeMessage.userId << std::endl;
-    lobbyText.setFillColor(sf::Color::Green);
     self.id = welcomeMessage.userId;
+    nextState = ProgramState::LOBBY_SELECT;
 }
 
 void MenuScreen::init() {
     nextState = ProgramState::MAIN_MENU;
+}
+
+void MenuScreen::connect() {
+    auto url = serverEditBox->getText();
+    int port = 4444;
+    auto colonPosition = url.find(":");
+    if (colonPosition != sf::String::InvalidPos) {
+        port = std::stoi(url.substring(colonPosition+1).toAnsiString());
+    }
+    serverConnection.connect(url.substring(0, colonPosition), port);
 }

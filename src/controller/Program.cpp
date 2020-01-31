@@ -9,7 +9,7 @@
 Program::Program(sf::RenderWindow &window) :
         serverConnection{true},
         window{window},
-        menuScreen(serverConnection, self),
+        menuScreen(serverConnection, self, window),
         lobbySelectScreen(serverConnection, self, window),
         gameScreen(serverConnection, self),
         gameEndScreen(serverConnection, self, window) {}
