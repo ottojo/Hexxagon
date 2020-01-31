@@ -57,18 +57,18 @@ std::optional<int> HexGridTools::indexFromAxial(AxialCoordinate coordinate) {
     }
 }
 
-std::vector<AxialCoordinate> HexGridTools::neighbours(AxialCoordinate coordinate) {
-    std::vector<AxialCoordinate> neighbors(6);
-    for (auto direction:axialDirections) {
-        neighbors.emplace_back(coordinate + direction);
+std::array<AxialCoordinate, 6> HexGridTools::neighbours(AxialCoordinate coordinate) {
+    std::array<AxialCoordinate, 6> neighbors;
+    for (unsigned int i = 0; i < neighbors.size(); i++) {
+        neighbors.at(i) = coordinate + axialDirections.at(i);
     }
     return neighbors;
 }
 
-std::vector<AxialCoordinate> HexGridTools::indirectNeighbours(AxialCoordinate coordinate) {
-    std::vector<AxialCoordinate> neighbors(12);
-    for (auto direction:indirectAxialDirections) {
-        neighbors.emplace_back(coordinate + direction);
+std::array<AxialCoordinate, 12> HexGridTools::indirectNeighbours(AxialCoordinate coordinate) {
+    std::array<AxialCoordinate, 12> neighbors;
+    for (unsigned int i = 0; i < neighbors.size(); i++) {
+        neighbors.at(i) = coordinate + indirectAxialDirections.at(i);
     }
     return neighbors;
 }

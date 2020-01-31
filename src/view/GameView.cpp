@@ -13,31 +13,12 @@
 
 void GameView::render(sf::RenderTarget &window) const {
     float r = radius;
-    float width = 2 * r;
-    float height = std::sqrt(3.0f) * r;
-
-    float hGridSpacing = width * (3.0f / 4.0f);
-    float vGridSpacing = height * 0.5f;
-
-    constexpr int gridSize = 5;
-    static_assert(gridSize < 100);
 
     sf::Transform boardTransform = sf::Transform::Identity;
 
     auto[windowWidth, windowHeight] = window.getSize();
     boardTransform.translate(windowWidth * 0.5f, windowHeight * 0.5f);
 
-    for (auto x = -gridSize * hGridSpacing; x <= gridSize * hGridSpacing; x += hGridSpacing) {
-        sf::RectangleShape vertLine({1, 2 * gridSize * vGridSpacing});
-        vertLine.setPosition(x, -gridSize * vGridSpacing);
-        window.draw(vertLine, boardTransform);
-    }
-
-    for (auto y = -gridSize * vGridSpacing; y <= gridSize * vGridSpacing; y += vGridSpacing) {
-        sf::RectangleShape horizLine({2 * gridSize * hGridSpacing, 1});
-        horizLine.setPosition(-gridSize * hGridSpacing, y);
-        window.draw(horizLine, boardTransform);
-    }
 
     std::vector<int> neighbourIndices;
     std::vector<int> indirectNeighbourIndices;

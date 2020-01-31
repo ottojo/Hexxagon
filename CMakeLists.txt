@@ -43,10 +43,10 @@ endif ()
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
 set(LIBS
-        tgui
-        sfml-system
-        sfml-window
-        sfml-graphics
+        tgui-d
+        sfml-system-d
+        sfml-window-d
+        sfml-graphics-d
         nlohmann_json::nlohmann_json
         gcov
         pthread)

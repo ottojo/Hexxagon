@@ -44,9 +44,9 @@ public:
 
     static std::optional<int> indexFromAxial(AxialCoordinate coordinate);
 
-    static std::vector<AxialCoordinate> neighbours(AxialCoordinate coordinate);
+    static std::array<AxialCoordinate, 6> neighbours(AxialCoordinate coordinate);
 
-    static std::vector<AxialCoordinate> indirectNeighbours(AxialCoordinate coordinate);
+    static std::array<AxialCoordinate, 12> indirectNeighbours(AxialCoordinate coordinate);
 
 private:
     const static CartCoordinate q_base;

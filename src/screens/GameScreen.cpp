@@ -5,9 +5,9 @@
  */
 
 #include "screens/GameScreen.h"
-#include <chrono>
 #include <sstream>
 #include <messages/client/GameMove.h>
+#include <set>
 
 bool GameScreen::isOwnTile(int tileIndex) {
     if (lastGameStatus.has_value()) {
@@ -30,40 +30,69 @@ bool GameScreen::isOwnTile(int tileIndex) {
 bool GameScreen::handleInput(sf::Event event, sf::RenderTarget &window) {
     if (event.type == sf::Event::MouseButtonPressed) {
         const std::lock_guard<std::mutex> lock(gameViewMutex);
-        auto start = std::chrono::system_clock::now();
         auto click = window.mapPixelToCoords({event.mouseButton.x, event.mouseButton.y});
         auto axialTileCoordinate = view.getCurrentCoordinate(window, click);
         auto tileIndex = HexGridTools::indexFromAxial(axialTileCoordinate);
-        auto end = std::chrono::system_clock::now();
-        auto duration = end - start;
+
 
         if (tileIndex.has_value()) {
-            std::cout << "Click on " << tileIndex.value() << " "
-                      << std::chrono::duration_cast<std::chrono::microseconds>(duration).count() << "µs" << std::endl;
-
+            std::cout << "clicked on " << tileIndex.value() << std::endl;
             if (currentState == State::PLAYING) {
                 if (!firstSelection.has_value()) {
                     // Select first Tile
                     if (isOwnTile(tileIndex.value())) {
                         firstSelection.emplace(tileIndex.value());
                         view.select(tileIndex.value());
+                        std::cout << "made first selection" << std::endl;
+
+                        return true;
                     }
                 } else {
-                    if (view.getBoard().getTiles().at(tileIndex.value()).getState() == TileState::FREE) {
+                    // Get all valid moves
+                    std::set<int> validMoves;
+                    auto neighbours = HexGridTools::neighbours(
+                            HexGridTools::axialFromIndex(firstSelection.value()).value());
+                    auto indirectNeighbours = HexGridTools::indirectNeighbours(
+                            HexGridTools::axialFromIndex(firstSelection.value()).value());
+
+                    for (const auto &n : neighbours) {
+                        auto index = HexGridTools::indexFromAxial(n);
+                        if (!index.has_value()) {
+                            continue;
+                        }
+                        if (view.getBoard().getTiles().at(index.value()).getState() == TileState::FREE) {
+                            validMoves.emplace(index.value());
+                        }
+                    }
+                    for (const auto &n : indirectNeighbours) {
+                        auto index = HexGridTools::indexFromAxial(n);
+                        if (!index.has_value()) {
+                            continue;
+                        }
+                        if (view.getBoard().getTiles().at(index.value()).getState() == TileState::FREE) {
+                            validMoves.emplace(index.value());
+                        }
+                    }
+                    std::cout << "found " << validMoves.size() << " valid moves" << std::endl;
+                    // If move is valid
+                    if (validMoves.find(tileIndex.value()) != validMoves.end()) {
                         // Select second Tile, send move
+                        std::cout << "made second selection" << std::endl;
                         GameMove g;
                         g.userId = self.id;
                         g.gameId = gameId;
                         g.moveFrom = firstSelection.value();
                         g.moveTo = tileIndex.value();
                         serverConnection.send(g);
-                        firstSelection.reset();
-                        view.deselect();
+                    } else {
+                        std::cout << "invalid move" << std::endl;
                     }
                 }
             }
-            return true;
         }
+        firstSelection.reset();
+        view.deselect();
+        return true;
     }
     return false;
 }
