@@ -71,14 +71,11 @@ void GameView::render(sf::RenderTarget &window) const {
         if (selectedTile.has_value()) {
             if (index == selectedTile.value()) {
                 outlineColor = sf::Color::Yellow;
-            }
-            if (showNeighbours) {
-                if (std::find(neighbourIndices.begin(), neighbourIndices.end(), index) != neighbourIndices.end()) {
-                    outlineColor = sf::Color::Green;
-                } else if (std::find(indirectNeighbourIndices.begin(), indirectNeighbourIndices.end(), index) !=
-                           indirectNeighbourIndices.end()) {
-                    outlineColor = sf::Color::Yellow;
-                }
+            } else if (std::find(neighbourIndices.begin(), neighbourIndices.end(), index) != neighbourIndices.end()) {
+                outlineColor = sf::Color::Green;
+            } else if (std::find(indirectNeighbourIndices.begin(), indirectNeighbourIndices.end(), index) !=
+                       indirectNeighbourIndices.end()) {
+                outlineColor = sf::Color::Yellow;
             }
         }
 
@@ -119,14 +116,6 @@ const Board &GameView::getBoard() const {
 
 void GameView::setBoard(const Board &setBoard) {
     GameView::board = setBoard;
-}
-
-bool GameView::isShowNeighbours() const {
-    return showNeighbours;
-}
-
-void GameView::setShowNeighbours(bool newShowNeighbours) {
-    GameView::showNeighbours = newShowNeighbours;
 }
 
 void GameView::select(int tileIndex) {

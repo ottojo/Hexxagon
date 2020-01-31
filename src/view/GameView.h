@@ -30,10 +30,6 @@ public:
 
     void deselect();
 
-    [[nodiscard]] bool isShowNeighbours() const;
-
-    void setShowNeighbours(bool newShowNeighbours);
-
 private:
     Board board;
 
@@ -43,8 +39,6 @@ private:
     sf::Vector2f boardScaling = {1, 1};
 
     float radius = 50;
-
-    bool showNeighbours = true;
 
     std::optional<int> selectedTile;
 };
