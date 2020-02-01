@@ -9,9 +9,11 @@
 #include <string>
 #include <util/UUID.h>
 #include <model/Player.h>
-#include <chrono>
 #include <nlohmann/json.hpp>
 
+/**
+ * Represents a game lobby that can have up to 2 players joined and can be closed.
+ */
 class Lobby {
 public:
     UUID id;
@@ -20,13 +22,11 @@ public:
     std::optional<Player> player1;
     std::optional<Player> player2;
 
-    std::chrono::time_point<std::chrono::system_clock> creationTime;
-
     bool isClosed;
+
+    friend void to_json(nlohmann::json &j, const Lobby &l);
+
+    friend void from_json(const nlohmann::json &j, Lobby &l);
 };
-
-void to_json(nlohmann::json &j, const Lobby &l);
-
-void from_json(const nlohmann::json &j, Lobby &l);
 
 #endif //HEXXAGON_LOBBY_H

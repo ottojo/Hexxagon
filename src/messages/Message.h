@@ -7,6 +7,11 @@
 
 #include "MessageType.h"
 
+/**
+ * Represents a generic message, that only holds a message type.
+ * This is intended to only be used temporarily while decoding the message, to determine it's type.
+ * Every message shall successfully decode to such a message.
+ */
 class Message {
 public:
     MessageType messageType;

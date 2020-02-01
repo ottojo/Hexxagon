@@ -15,6 +15,8 @@
 
 class Program {
 private:
+
+    // state <-> current screen
     ProgramState state = ProgramState::MAIN_MENU;
     ServerConnection serverConnection;
     sf::RenderWindow &window;
@@ -23,10 +25,12 @@ private:
     LobbySelectScreen lobbySelectScreen;
     GameScreen gameScreen;
     GameEndScreen gameEndScreen;
+    // if true, init() should be called on the current screen.
     bool initNextScreen = true;
 
     Player self;
 
+    // Main loop: (optionally) init screen, dispatch events to screen, render screen
     template<typename ScreenType>
     void runScreen(ScreenType &screen) {
         if (initNextScreen) {
@@ -54,6 +58,7 @@ private:
         }
         auto newState = screen.render(window);
         if (newState != state) {
+            // Call init() on new screen whenever screen switches
             initNextScreen = true;
         }
         state = newState;
@@ -63,6 +68,9 @@ public:
 
     explicit Program(sf::RenderWindow &window);
 
+    /**
+     * Main game loop, returns once window is closed
+     */
     void run();
 };
 

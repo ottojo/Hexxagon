@@ -53,6 +53,11 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
     ```
 
 * run unit tests
+
+    (requires [googletest](https://github.com/google/googletest) to be installed to build)
     ```bash
     ./unitTests
     ```
+  
+* build HTML documentation
+    In main repository folder, execute `doxygen`. Documentation will be generated to `doc/html/index.html`.

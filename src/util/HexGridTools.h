@@ -38,14 +38,29 @@ public:
      */
     static CartCoordinate cartesianFromAxial(AxialCoordinate coord);
 
+    /**
+     * Convert cartesian coordinate to axial coordinate
+     */
     static AxialCoordinate axialFromCartesian(CartCoordinate coord);
 
+    /**
+     * Convert SoPra-index to axial coordinate, if exists
+     */
     static std::optional<AxialCoordinate> axialFromIndex(int index);
 
+    /**
+     * Convert axial coordinate to SoPra-index, if exists
+     */
     static std::optional<int> indexFromAxial(AxialCoordinate coordinate);
 
+    /**
+     * Calculates all coordinates directly next to the provided coordinate
+     */
     static std::array<AxialCoordinate, 6> neighbours(AxialCoordinate coordinate);
 
+    /**
+     * Calculates all coordinates with distance 2 to the provided coordinate (neighbors of neighbors)
+     */
     static std::array<AxialCoordinate, 12> indirectNeighbours(AxialCoordinate coordinate);
 
 private:

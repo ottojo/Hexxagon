@@ -2,7 +2,6 @@
  * @file Board.h
  * @author jonas
  * @date 12/8/19
- * Board holds all Tiles of a game including index and state
  */
 
 #ifndef HEXXAGON_BOARD_H
@@ -12,8 +11,15 @@
 #include <nlohmann/json.hpp>
 #include "Tile.h"
 
+/**
+ * Board holds all Tiles of a game including index and state
+ */
 class Board {
 public:
+
+    /**
+     * Initializes the board with 61 free tiles
+     */
     Board();
 
     [[nodiscard]] const std::map<int, Tile> &getTiles() const;

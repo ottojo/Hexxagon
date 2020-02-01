@@ -10,13 +10,25 @@
 #include <TGUI/Font.hpp>
 
 namespace util {
+
+    /**
+     * Utility class that holds a global instance of the default font
+     */
     class FontUtil {
     public:
+
         const static sf::Font &getDefaultFont();
 
-        static const tgui::Font &getTguiFont();
+        /**
+         * Returns the same font as FontUtil::getDefaultFont but converted to a tgui::Font.
+         * Provided to avoid dangling references after implicitly converting sf::Font to tgui::Font
+         */
+        const static tgui::Font &getTguiFont();
 
-        static void init(const std::string& font = "assets/Bangers-Regular.ttf");
+        /*
+         * Loads default font from the provided path
+         */
+        static void init(const std::string &font = "assets/Bangers-Regular.ttf");
 
     private:
         static sf::Font defaultFont;

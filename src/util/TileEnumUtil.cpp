@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "TileEnumUtil.h"
 
-int util::TileEnumUtil::enumToInt(std::string s) {
+int util::TileEnumUtil::enumToInt(const std::string& s) {
     auto underscoreIndex = s.find('_');
     if (underscoreIndex == std::string::npos) {
         throw std::invalid_argument("Could not parse tile enum \"" + s + "\" (no underscore found)");

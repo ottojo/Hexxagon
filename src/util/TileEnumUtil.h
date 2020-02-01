@@ -8,9 +8,12 @@
 #include <string>
 
 namespace util {
+    /**
+     * Utility functions for parsing "TILE_42" style tile indices
+     */
     class TileEnumUtil {
     public:
-        static int enumToInt(std::string s);
+        static int enumToInt(const std::string &s);
 
         static std::string intToEnum(int i);
     };

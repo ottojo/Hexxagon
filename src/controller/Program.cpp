@@ -1,4 +1,4 @@
-//
+//true
 // Created by jonas on 29.12.19.
 //
 
@@ -7,7 +7,7 @@
 #include "Program.h"
 
 Program::Program(sf::RenderWindow &window) :
-        serverConnection{true},
+        serverConnection{false},
         window{window},
         menuScreen(serverConnection, self, window),
         lobbySelectScreen(serverConnection, self, window),
@@ -16,20 +16,8 @@ Program::Program(sf::RenderWindow &window) :
 
 
 void Program::run() {
-
-    float fps = 1;
-
-    sf::Text fpsText("", util::FontUtil::getDefaultFont());
-    fpsText.setFillColor(sf::Color::Blue);
-
-    sf::Text positionText("", util::FontUtil::getDefaultFont());
-    positionText.setFillColor(sf::Color::Blue);
-    positionText.setPosition(0, 50);
-
-    sf::Clock clock;
     while (window.isOpen()) {
         window.clear(sf::Color::Black);
-
 
         switch (state) {
             case ProgramState::MAIN_MENU:
@@ -46,16 +34,6 @@ void Program::run() {
                 break;
         }
 
-
-        std::stringstream stream;
-        stream << "FPS: " << std::setfill('0') << std::setw(8) << std::fixed << std::setprecision(2) << fps;
-        fpsText.setString(stream.str());
-        window.draw(fpsText);
-        window.draw(positionText);
-
         window.display();
-
-        fps = 1 / clock.getElapsedTime().asSeconds();
-        clock.restart();
     }
 }

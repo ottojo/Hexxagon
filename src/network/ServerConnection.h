@@ -21,16 +21,31 @@
 
 #include <iostream>
 
-
+/**
+ * Holds a websocket connection to a Hexxagon server.
+ * Allows listeners to be attached for any type of Server->Client message.
+ * Also handles encoding and decoding of json messages.
+ */
 class ServerConnection {
 public:
 
+    /**
+     * Create a server connection
+     * @param debug Set debug to true to enable printing all messages to stdout.
+     */
     explicit ServerConnection(bool debug = false) : debug{debug} {};
 
+    /**
+     * Connects to the specified server
+     */
     void connect(const std::string &url, int port);
 
     bool isConnected();
 
+    /**
+     * Sends any message that can be converted to nlohmann::json
+     * @tparam MessageType Type of message object. Shall be convertible to nlohmann::json
+     */
     template<typename MessageType>
     void send(MessageType message) {
         if (!isConnected()) {
