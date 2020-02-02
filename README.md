@@ -22,7 +22,7 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
       
       WebsocketCPP (forked from [SoPra-Team-10/Network](https://github.com/SoPra-Team-10/Network))
       ```bash
-      git clone https://github.com/ottojo/WebsocketCPP
+      git clone https://github.com/ottojo/WebsocketCPP.git
       cd WebsocketCPP
       mkdir build && cd build
       cmake ..
@@ -34,7 +34,7 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
   * Graphics: [SFML](https://www.sfml-dev.org/)
       ```bash
       sudo apt install libudev-dev libopenal-dev libvorbis-dev libflac-dev libxrandr-dev libfreetype6-dev
-      git clone SFML
+      git clone https://github.com/SFML/SFML.git
       cd SFML
       cmake .
       make -j$(nproc)
