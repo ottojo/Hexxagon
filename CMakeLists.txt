@@ -18,9 +18,7 @@ endif ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=unused-parameter")
 
 # nlohmann/json
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-set(JSON_Install OFF CACHE INTERNAL "")
-add_subdirectory(ext_lib/json)
+include_directories(ext_lib)
 
 # GTest
 find_package(GTest QUIET)
@@ -47,7 +45,6 @@ set(LIBS
         sfml-system
         sfml-window
         sfml-graphics
-        nlohmann_json::nlohmann_json
         gcov
         pthread)
 
@@ -75,7 +72,6 @@ set(TEST_SOURCES
         test/hexGrid.cpp)
 
 set(TEST_LIBS gtest gmock pthread
-        nlohmann_json::nlohmann_json
         gcov)
 
 if (GTest_FOUND)
