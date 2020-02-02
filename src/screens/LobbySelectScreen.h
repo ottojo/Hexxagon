@@ -75,7 +75,7 @@ private:
 
     void updateSelfUserName();
 
-    std::mutex lobbyListLock;
+    std::mutex guiLock;
 };
 
 

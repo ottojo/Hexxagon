@@ -4,7 +4,7 @@
 #include <util/FontUtil.h>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Hexxagon");
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "Hexxagon");
     window.setFramerateLimit(200);
 
     util::FontUtil::init();

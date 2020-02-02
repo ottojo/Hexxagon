@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.10)
 project(Hexxagon)
 
 if (NOT CMAKE_BUILD_TYPE)

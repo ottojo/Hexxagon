@@ -1,13 +1,12 @@
-//true
+//
 // Created by jonas on 29.12.19.
 //
 
 #include <util/FontUtil.h>
-#include <iomanip>
 #include "Program.h"
 
 Program::Program(sf::RenderWindow &window) :
-        serverConnection{false},
+        serverConnection{true},
         window{window},
         menuScreen(serverConnection, self, window),
         lobbySelectScreen(serverConnection, self, window),

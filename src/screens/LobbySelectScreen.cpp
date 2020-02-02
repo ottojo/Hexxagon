@@ -11,7 +11,7 @@
 #include <messages/client/StartGame.h>
 
 ProgramState LobbySelectScreen::render(sf::RenderTarget &) {
-    std::lock_guard<std::mutex> lock(lobbyListLock);
+    std::lock_guard<std::mutex> lock(guiLock);
 
     gui.draw();
 
@@ -40,7 +40,7 @@ void LobbySelectScreen::init() {
 void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobbies) {
     std::cout << "Got " << availableLobbies.lobbies.size() << " available lobbies" << std::endl;
 
-    std::lock_guard<std::mutex> listLock(lobbyListLock);
+    std::lock_guard<std::mutex> listLock(guiLock);
     lobbyListBox->removeAllItems();
     for (const auto &lobby:availableLobbies.lobbies) {
         std::string lobbyText = lobby.name;
@@ -61,6 +61,7 @@ void LobbySelectScreen::onAvailableLobbies(const AvailableLobbies &availableLobb
 }
 
 void LobbySelectScreen::newLobby() {
+    std::lock_guard<std::mutex> lock(guiLock);
     CreateNewLobby c;
     c.userId = self.id;
     c.lobbyName = lobbyNameEditBox->getText();
@@ -69,6 +70,7 @@ void LobbySelectScreen::newLobby() {
 }
 
 void LobbySelectScreen::joinLobby() {
+    std::lock_guard<std::mutex> lock(guiLock);
     leaveLobby();
     JoinLobby j;
     j.userId = self.id;
@@ -79,6 +81,7 @@ void LobbySelectScreen::joinLobby() {
 }
 
 void LobbySelectScreen::startGame() {
+    std::lock_guard<std::mutex> lock(guiLock);
     if (!currentLobby.has_value()) {
         statusLabel->setText("Can not start game (not in lobby).");
         statusLabel->getRenderer()->setTextColor(sf::Color::Red);
@@ -101,6 +104,7 @@ void LobbySelectScreen::leaveLobby() {
 }
 
 void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
+    std::lock_guard<std::mutex> lock(guiLock);
     if (lobbyJoined.successfullyJoined) {
         statusLabel->setText("Joining lobby was successful.");
         statusLabel->getRenderer()->setTextColor(sf::Color::Green);
@@ -111,6 +115,7 @@ void LobbySelectScreen::onLobbyJoined(const LobbyJoined &lobbyJoined) {
 }
 
 void LobbySelectScreen::onLobbyStatus(const LobbyStatus &lobbyStatus) {
+    std::lock_guard<std::mutex> lock(guiLock);
     currentLobby = lobbyStatus.lobby;
     leaveLobbyButton->setEnabled(currentLobby->player2.value_or(Player()).id == self.id or
                                  currentLobby->player1.value_or(Player()).id == self.id);

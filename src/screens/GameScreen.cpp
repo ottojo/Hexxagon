@@ -139,6 +139,4 @@ GameScreen::GameScreen(ServerConnection &connection, Player &self) :
     backgroundSprite.setTexture(backgroundTexture);
 }
 
-void GameScreen::init() {
-    lastGameStatus.reset();
-}
+void GameScreen::init() {}
