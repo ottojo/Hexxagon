@@ -4,6 +4,9 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
 
 ## Build instructions
 * Install dependencies
+    
+  This process can be automated using the `dependencies.sh` script.
+
   * Generic C++ build tools
     ```bash
     sudo apt install git cmake g++  
