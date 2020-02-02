@@ -4,16 +4,25 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
 
 ## Build instructions
 * Install dependencies
+  * Generic C++ build tools
+    ```bash
+    sudo apt install git cmake g++  
+    ```
   * Networking
       [Libwebsockets](https://github.com/warmcat/libwebsockets)
       ```bash
-      sudo apt install libwebsockets libwebsockets-dev
+      sudo apt install libssl-dev
+      git clone https://github.com/warmcat/libwebsockets.git
+      cd libwebsockets
+      cmake .
+      make -j$(nproc)
+      sudo make install
       sudo ldconfig
       ```
       
       WebsocketCPP (forked from [SoPra-Team-10/Network](https://github.com/SoPra-Team-10/Network))
       ```bash
-      git clone git@github.com:ottojo/WebsocketCPP.git
+      git clone https://github.com/ottojo/WebsocketCPP
       cd WebsocketCPP
       mkdir build && cd build
       cmake ..
@@ -24,12 +33,22 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
       
   * Graphics: [SFML](https://www.sfml-dev.org/)
       ```bash
-        sudo apt-get install libsfml-dev
+      sudo apt install libudev-dev libopenal-dev libvorbis-dev libflac-dev libxrandr-dev libfreetype6-dev
+      git clone SFML
+      cd SFML
+      cmake .
+      make -j$(nproc)
+      sudo make install
+      sudo ldconfig
+    
       ```
   
   * GUI: [TGUI](https://tgui.eu/)
       ```bash
-      sudo add-apt-repository ppa:texus/tgui-0.8
+      git clone https://github.com/texus/TGUI.git
+      cd TGUI
+      cmake .
+      make -j$(nproc)
       sudo apt-get update
       sudo apt-get install libtgui-dev
       sudo ldconfig
@@ -37,13 +56,12 @@ Dieses Repository wird genutzt um die Implementierung des Spiels "Hexxagon" zu v
   
 * Get the source code
     ```bash
-    git clone --recursive git@github.com:ottojo/Hexxagon.git
+    git clone --recursive https://github.com/ottojo/Hexxagon.git
     ```
 * build
     ```bash
     cd Hexxagon
-    mkdir build && cd build
-    cmake ..
+    cmake .
     make -j$(nproc)
     ```
   
